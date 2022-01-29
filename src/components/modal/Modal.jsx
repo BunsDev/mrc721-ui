@@ -2,7 +2,7 @@ import React from 'react'
 
 import ReactModal from 'react-modal'
 import { Flex } from 'rebass'
-import { Type } from '../common/Text'
+import { Type } from '../text/Text'
 import { BorderBottom, ImageWithCursor, Input } from '../common/FormControlls'
 import { MainWrap, Wrapper } from './Modal.style'
 

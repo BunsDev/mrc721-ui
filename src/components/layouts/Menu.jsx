@@ -3,7 +3,7 @@ import { Flex } from 'rebass'
 import dynamic from 'next/dynamic'
 
 import styled from 'styled-components'
-import { Type } from '../common/Text'
+import { Type } from '../text/Text'
 import { formatAddress } from '../../utils/formatAddress'
 import { useWeb3React } from '@web3-react/core'
 import { NameChainMap } from '../../constants/chainsMap'

@@ -1,3 +1,4 @@
+import { Flex } from 'rebass'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
@@ -23,4 +24,9 @@ export const ModalItem = styled.div`
   &:hover {
     background: #42425f;
   }
+`
+
+export const ContentItem = styled(Flex)`
+  box-sizing: unset !important;
+  cursor: pointer;
 `
