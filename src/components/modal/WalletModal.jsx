@@ -1,10 +1,10 @@
 import React from 'react'
 import { Flex } from 'rebass'
 import { useWeb3React } from '@web3-react/core'
-import { Image } from './FormControlls'
+import { Image } from '../common/FormControlls'
 import Modal from './Modal'
-import { connectorsByName } from '../../helper/connectors'
-import { ModalItem } from '../home'
+import { connectorsByName } from '../../utils/connectors'
+import { ModalItem } from './Modal.style'
 
 const WalletModal = (props) => {
   const { open, hide } = props
@@ -22,20 +22,9 @@ const WalletModal = (props) => {
               hide()
             }}
           >
-            <Flex
-              padding="0 20px"
-              justifyContent="space-between"
-              width="100%"
-              alignItems="center"
-              color={'#D3DBE3'}
-            >
+            <Flex padding="0 20px" justifyContent="space-between" width="100%" alignItems="center" color={'#D3DBE3'}>
               {name}
-              <Image
-                width="24px"
-                height="24px"
-                paddingRight="0"
-                src={`/media/common/${name}.svg`}
-              />
+              <Image width="24px" height="24px" paddingRight="0" src={`/media/common/${name}.svg`} />
             </Flex>
           </ModalItem>
         )
