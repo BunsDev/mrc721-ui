@@ -59,10 +59,11 @@ const SelectBox = (props) => {
     })
   return (
     <Wrapper marginBottom={marginBottom}>
-      <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
-        {label}
-      </Type.SM>
-
+      <Flex width="100%">
+        <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
+          {label}
+        </Type.SM>
+      </Flex>
       <Selector padding="0 18px 0 15px" onClick={handleOpenModal} border={border} cursor="pointer">
         {selectedValue ? (
           <Flex alignItems="center">

@@ -66,9 +66,11 @@ const NFT = () => {
   ]
   return (
     <Wrapper marginBottom="35px">
-      <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
-        Select NFT
-      </Type.SM>
+      <Flex width="100%">
+        <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
+          Select NFT
+        </Type.SM>
+      </Flex>
       {/* <Flex width="100%" maxWidth="470px"> */}
       <Select options={options} isMulti styles={colourStyles} />
       {/* </Flex> */}

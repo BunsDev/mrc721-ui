@@ -19,7 +19,9 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   max-width: ${({ maxWidth }) => maxWidth};
   box-sizing: border-box;
-  // margin: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   margin-bottom: ${({ marginBottom }) => marginBottom};
 `
