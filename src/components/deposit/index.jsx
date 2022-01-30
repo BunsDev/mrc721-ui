@@ -2,7 +2,7 @@ import React from 'react'
 import { Flex } from 'rebass'
 import styled from 'styled-components'
 import { ChainStatus } from '../../constants/constants'
-import { Box, BoxDestination } from '../container/Container'
+import { Box } from '../container/Container'
 import { GradientTitle, Title } from '../text/Title'
 import Chain from './Chain'
 import Collection from './Collection'
@@ -13,7 +13,7 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
   box-shadow: 0px 4px 4px ${({ shadowColor }) => (shadowColor ? shadowColor : 'rgba(239, 239, 239, 0.25)')};
-  min-height: ${({ minHeight }) => (minHeight ? minHeight : '510px')};
+  min-height: ${({ minHeight }) => (minHeight ? minHeight : '500px')};
   position: relative;
   display: flex;
   flex-direction: column;
@@ -39,10 +39,12 @@ const Deposit = () => {
           <Collection />
           <NFT />
         </Box>
-        <TriangleDown />
-        <BoxDestination background="linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%)">
+        <Box background="#f2f4fb" padding="0" borderRadius="0" border="none">
+          <TriangleDown />
+        </Box>
+        <Box background="linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%)">
           <Chain type={ChainStatus.DEST_CHAIN} />
-        </BoxDestination>
+        </Box>
       </Container>
     </Flex>
   )

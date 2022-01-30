@@ -40,8 +40,3 @@ export const Box = styled.div`
   align-items: center;
   padding: ${({ padding }) => (padding ? padding : '20px')};
 `
-
-export const BoxDestination = styled(Box)`
-  position: absolute;
-  bottom: 0;
-`
