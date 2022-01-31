@@ -3,27 +3,38 @@ import SelectBox from './SelectBox'
 import { NameChainMap, rpcConfig } from '../../constants/chainsMap'
 import { validChains } from '../../constants/settings'
 import { ChainStatus } from '../../constants/constants'
+import { useAddOriginChain, useAddDestChain, useBridge } from '../../state/bridge/hooks'
 
 const Chain = (props) => {
-  const { type, fromChain, value } = props
+  const { type, value } = props
   const [chains, setChains] = useState('')
+  const bridge = useBridge()
+  const addOriginChain = useAddOriginChain()
+  const addDestChain = useAddDestChain()
+
   useEffect(() => {
     fetchChain()
-  }, [type, fromChain])
+  }, [type, bridge])
 
   const fetchChain = () => {
-    console.log('call function')
     const chains = validChains.map((item) => ({
       id: item,
       name: NameChainMap[item],
       symbol: rpcConfig[item].nativeCurrency.symbol,
     }))
 
-    if (type === ChainStatus.ORIGIN_CHAIN) {
-      setChains(chains)
-    } else {
-      const filter = chains.filter((item) => item.id !== fromChain)
+    if (type === ChainStatus.DEST_CHAIN && bridge.fromChain) {
+      const filter = chains.filter((item) => item.id !== bridge.fromChain.id)
       setChains(filter)
+    } else {
+      setChains(chains)
+    }
+  }
+  const updateBridge = (data) => {
+    if (type === ChainStatus.ORIGIN_CHAIN) {
+      addOriginChain(data)
+    } else {
+      addDestChain(data)
     }
   }
 
@@ -34,7 +45,7 @@ const Chain = (props) => {
       data={chains}
       type="chain"
       value={value}
-      // onChange={(data) => updateBridge('fromChain', data)}
+      onChange={(data) => updateBridge(data)}
       marginBottom={value ? '5px' : '35px'}
     />
   )

@@ -20,9 +20,10 @@ const SelectBox = (props) => {
   React.useEffect(() => {
     if (value) {
       const selectedValue = data.find((item) => item.id === value)
+      console.log({ selectedValue })
       if (selectedValue) {
-        const selectedValueIcon = selectedValue.symbol.toLowerCase()
-        setSelectedValue({ ...selectedValue, selectedValueIcon })
+        const icon = selectedValue.logo ? selectedValue.logo : `/media/chains/${selectedValue.symbol.toLowerCase()}.svg`
+        setSelectedValue({ ...selectedValue, icon })
       }
     } else {
       setSelectedValue('')
@@ -36,6 +37,7 @@ const SelectBox = (props) => {
   const contentModal =
     data &&
     data.map((item, index) => {
+      console.log(item)
       return (
         <ModalItem
           key={index}
@@ -46,7 +48,7 @@ const SelectBox = (props) => {
         >
           <ContentItem alignItems="center">
             <Image
-              src={`/media/chains/${item.symbol.toLowerCase()}.svg`}
+              src={item.logo ? item.logo : `/media/chains/${item.symbol.toLowerCase()}.svg`}
               boxSizing="unset"
               onError={(e) => (e.target.src = '/media/tokens/default.svg')}
             />
@@ -68,7 +70,7 @@ const SelectBox = (props) => {
         {selectedValue ? (
           <Flex alignItems="center">
             <Image
-              src={`/media/tokens/${selectedValue.selectedValueIcon}.svg`}
+              src={selectedValue.icon}
               onError={(e) => (e.target.src = '/media/tokens/default.svg')}
               boxSizing="unset"
             />
