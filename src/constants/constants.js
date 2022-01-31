@@ -4,3 +4,7 @@ export const ChainStatus = {
 }
 
 export const SEARCHABLE = 'searchable'
+
+export const ActionBtnType = {
+  SELECT: 'select',
+}

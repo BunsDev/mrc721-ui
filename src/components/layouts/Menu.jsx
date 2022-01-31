@@ -54,6 +54,9 @@ const Button = styled.button`
   &:hover {
     filter: ${({ active }) => (active ? 'brightness(0.9)' : 'brightness(1)')};
   }
+  &:focus {
+    outline: none;
+  }
 `
 const Status = styled.div`
   background-color: ${({ active, color }) => (color ? color : active ? '#00e376' : '#FFA451')};
