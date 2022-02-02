@@ -1,14 +1,30 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { updateActionBtnType } from './actions'
+import { updateActionBtnType, updateSearchQuery } from './actions'
 
 export function useActionBtn() {
   return useAppSelector((state) => state.application.actionBtnType)
 }
 
-export function useChangeActionBtn(btnType) {
+export function useChangeActionBtn() {
   const dispatch = useAppDispatch()
-  return useCallback(() => {
-    dispatch(updateActionBtnType(btnType))
-  }, [dispatch])
+  return useCallback(
+    (btnType) => {
+      dispatch(updateActionBtnType(btnType))
+    },
+    [dispatch]
+  )
+}
+
+export function useSearchQuery() {
+  return useAppSelector((state) => state.application.searchQuery)
+}
+export function useChangeSearchQuery() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (query) => {
+      dispatch(updateSearchQuery(query))
+    },
+    [dispatch]
+  )
 }

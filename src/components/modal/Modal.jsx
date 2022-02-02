@@ -67,6 +67,7 @@ const Modal = (props) => {
                 placeholder={placeholderSearch}
                 onChange={(e) => handleSearch(e.target.value)}
                 border="1px solid rgba(172, 175, 243, 0.29)"
+                color="#ffffff"
               />
             </Flex>
             <BorderBottom />

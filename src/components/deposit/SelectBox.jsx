@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Flex } from 'rebass'
 import styled from 'styled-components'
 import { SEARCHABLE } from '../../constants/constants'
+import { useChangeSearchQuery } from '../../state/application/hooks'
 import { Image, Selector } from '../common/FormControlls'
 import { Wrapper } from '../container/Container'
 import Modal from '../modal/Modal'
@@ -17,10 +18,11 @@ const SelectBox = (props) => {
   const [open, setOpen] = useState(false)
   const [selectedValue, setSelectedValue] = useState('')
 
+  const changeSearchQuery = useChangeSearchQuery()
+
   React.useEffect(() => {
     if (value) {
       const selectedValue = data.find((item) => item.id === value)
-      console.log({ selectedValue })
       if (selectedValue) {
         const icon = selectedValue.logo ? selectedValue.logo : `/media/chains/${selectedValue.symbol.toLowerCase()}.svg`
         setSelectedValue({ ...selectedValue, icon })
@@ -34,6 +36,10 @@ const SelectBox = (props) => {
     setOpen(true)
   }
 
+  const handleSearch = (data) => {
+    changeSearchQuery(data)
+  }
+  console.log({ data })
   const contentModal =
     data &&
     data.map((item, index) => {
@@ -91,11 +97,9 @@ const SelectBox = (props) => {
         open={open}
         hide={() => {
           setOpen(!open)
-          //   dispatch({
-          //     type: 'UPDATE_TOKEN_SEARCH_QUERY',
-          //     payload: '',
-          //   })
+          changeSearchQuery('')
         }}
+        handleSearch={(data) => handleSearch(data)}
         title={label}
         search={type === SEARCHABLE}
         placeholderSearch="Search name or paste address"
