@@ -39,11 +39,9 @@ const SelectBox = (props) => {
   const handleSearch = (data) => {
     changeSearchQuery(data)
   }
-  console.log({ data })
   const contentModal =
     data &&
     data.map((item, index) => {
-      console.log(item)
       return (
         <ModalItem
           key={index}

@@ -8,3 +8,5 @@ export const SEARCHABLE = 'searchable'
 export const ActionBtnType = {
   SELECT: 'select',
 }
+
+export const NetworkContextName = 'NETWORK'

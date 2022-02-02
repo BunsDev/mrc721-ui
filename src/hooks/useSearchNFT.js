@@ -14,19 +14,16 @@ const useSearchNFT = () => {
       try {
         // search address
         if (searchQuery && bridge.fromChain) {
-          console.log('step 1')
           let result = await findAndAddNFT(searchQuery, bridge.fromChain.id)
           setNFTs(result)
         }
         //  filter based on chain
         else if (bridge.fromChain && localStorageNFTs) {
-          console.log('step 2')
           const filter = localStorageNFTs.filter((item) => bridge.fromChain.id in item.address)
           setNFTs(filter)
         }
         // show all
         else {
-          console.log('step 3')
           setNFTs(localStorageNFTs)
         }
       } catch (error) {
