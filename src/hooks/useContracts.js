@@ -1,12 +1,11 @@
-// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core'
 import { useMemo } from 'react'
 import { MRC721Bridge_ABI } from '../constants/ABI'
 import { getContract2 } from '../utils/contractHelpers'
-import useActiveWeb3React from './useActiveWeb3React'
 
 // returns null on errors
 export function useContract(addressOrAddressMap, ABI, withSignerIfPossible) {
-  const { library, account, chainId } = useActiveWeb3React()
+  const { library, account, chainId } = useWeb3React()
 
   console.log({ library, account, chainId })
 

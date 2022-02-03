@@ -1,4 +1,6 @@
 import { AddressZero } from '@ethersproject/constants'
+import axios from 'axios'
+import { isObject } from 'lodash'
 import multicall from './multicall'
 import { isAddress } from './isAddress'
 import { toCheckSumAddress } from './toCheckSumAddress'
@@ -93,5 +95,72 @@ export const findAndAddNFT = async (searchQuery, fromChain) => {
     return resultFilter
   } catch (error) {
     console.log('Error happend in Find and Add NFT')
+  }
+}
+
+export const getOwnedNFTs = async (account, chainId, contract) => {
+  try {
+    if (!isAddress(account) || account === AddressZero) {
+      throw Error(`Invalid 'account' parameter '${account}'.`)
+    }
+    if (!isAddress(contract) || contract === AddressZero) {
+      throw Error(`Invalid 'contract' parameter '${contract}'.`)
+    }
+
+    const tokenUris = await getTokenUris(account, chainId, contract)
+    console.log('******', tokenUris)
+    var tokenData = {}
+    await Promise.all(
+      Object.keys(tokenUris).map(async (tokenId) => {
+        try {
+          const response = await axios.post(process.env.NEXT_PUBLIC_MUON_NFT_PROXY, {
+            url: tokenUris[tokenId],
+          })
+          tokenData[tokenId] = {
+            image: response.data.image || null,
+          }
+        } catch (error) {
+          console.log('error happend in fetch nft proxy')
+        }
+      })
+    )
+    console.log({ tokenData })
+    return tokenData
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const getTokenUris = async (account, chainId, contract) => {
+  try {
+    let response = await axios.get(
+      `${process.env.NEXT_PUBLIC_MUON_NFT_BACKEND}/api/tokens/${account}/${chainId}/${contract}`
+    )
+    if (response.status === 200) {
+      const result = response.data
+      if (result.error === 0 && isObject(result.data)) {
+        return result.data
+      }
+    }
+  } catch (error) {
+    console.error('An error occurred while retrieving contract tokens owned by account', error)
+  }
+  return []
+}
+
+export const sortOptions = (options, selectedTokenIds) => {
+  if (options.length > 0) {
+    let selectedOptions = []
+    let unSelectedOptions = []
+    options.map((item) => {
+      if (selectedTokenIds.includes(item.value)) {
+        selectedOptions.push(item)
+      } else {
+        unSelectedOptions.push(item)
+      }
+    })
+    let sortedSelectedOptions = selectedOptions.sort((option1, option2) => (option1.value < option2.value ? -1 : 1))
+    let sortedUnselectedOptions = unSelectedOptions.sort((option1, option2) => (option1.value < option2.value ? -1 : 1))
+    return [...sortedSelectedOptions, ...sortedUnselectedOptions]
   }
 }

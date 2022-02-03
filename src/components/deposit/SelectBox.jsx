@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Flex } from 'rebass'
-import styled from 'styled-components'
 import { SEARCHABLE } from '../../constants/constants'
 import { useChangeSearchQuery } from '../../state/application/hooks'
 import { Image, Selector } from '../common/FormControlls'
@@ -8,10 +7,7 @@ import { Wrapper } from '../container/Container'
 import Modal from '../modal/Modal'
 import { ContentItem, ModalItem } from '../modal/Modal.style'
 import { Type } from '../text/Text'
-
-const Arrow = styled.img`
-  cursor: pointer;
-`
+import { Arrow } from './deposit.style'
 
 const SelectBox = (props) => {
   const { label, placeholder, data, onChange, value, marginBottom, border, type } = props
@@ -22,10 +18,16 @@ const SelectBox = (props) => {
 
   React.useEffect(() => {
     if (value) {
-      const selectedValue = data.find((item) => item.id === value)
-      if (selectedValue) {
-        const icon = selectedValue.logo ? selectedValue.logo : `/media/chains/${selectedValue.symbol.toLowerCase()}.svg`
-        setSelectedValue({ ...selectedValue, icon })
+      try {
+        const selectedValue = data.find((item) => item.id === value)
+        if (selectedValue) {
+          const icon = selectedValue.logo
+            ? selectedValue.logo
+            : `/media/chains/${selectedValue.symbol.toLowerCase()}.svg`
+          setSelectedValue({ ...selectedValue, icon })
+        }
+      } catch (error) {
+        console.log('Error happend in selectedValue', error)
       }
     } else {
       setSelectedValue('')

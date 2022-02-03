@@ -1,79 +1,134 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex } from 'rebass'
-import Select from 'react-select'
+import { CheckCircle, Circle } from 'react-feather'
+import Select, { components } from 'react-select'
 import { Image } from '../common/FormControlls'
 import { Type } from '../text/Text'
 import { Wrapper } from '../container/Container'
+import { Arrow, CheckCircleWrapper, FetchingData, ReactSelectStyle } from './deposit.style'
+import useFetchOwnedNFT from '../../hooks/useFetchOwnedNFT'
+import { sortOptions } from '../../utils/NFT'
+import { useAddNFTs, useBridge } from '../../state/bridge/hooks'
 
-const colourStyles = {
-  container: (styles) => ({ ...styles, width: '100%' }),
-  control: (styles) => ({
-    ...styles,
-    backgroundColor: '#E6ECF2',
-    border: '1px solid #FFFFFF',
-    minHeight: '45px',
-    ':hover': {
-      filter: 'brightness(0.9)',
-      border: 'none',
-    },
-    ':focus': {
-      border: 'none',
-    },
-  }),
-  // dropdownIndicator: (styles) => ({ ...styles, color: 'black' }),
-  option: (styles, { isDisabled, isFocused, isSelected }) => {
-    const color = 'green'
-    return {
-      ...styles,
-      backgroundColor: isDisabled ? undefined : isSelected ? color : isFocused ? '#ffffff' : undefined,
-      color: isDisabled ? '#ccc' : isSelected ? 'balck' : '#666666',
-      cursor: isDisabled ? 'not-allowed' : 'default',
-
-      ':active': {
-        ...styles[':active'],
-        backgroundColor: !isDisabled ? (isSelected ? 'green' : '#E6ECF2') : undefined,
-      },
-    }
-  },
-  menu: (styles) => ({ ...styles, backgroundColor: '#E6ECF2' }),
-}
-
-export const MenuItem = ({ logo, name }) => {
+const DropdownIndicator = (props) => {
   return (
-    <Flex alignItems="center">
+    <components.DropdownIndicator {...props}>
+      <Arrow src="/media/common/arrow-down.svg" alt="arrow-down" cursor="pointer" />
+    </components.DropdownIndicator>
+  )
+}
+export const MenuItem = ({ logo, nftId, isSelected }) => {
+  return (
+    <Flex alignItems="center" justifyContent="space-between">
       <Image src={logo} onError={(e) => (e.target.src = '/media/tokens/default.svg')} boxSizing="unset" />
       <Type.MD color="#313144" cursor="pointer">
-        {name}
+        #{nftId}
+        <CheckCircleWrapper>{!isSelected ? <Circle size={16} /> : <CheckCircle size={16} />}</CheckCircleWrapper>
       </Type.MD>
     </Flex>
   )
 }
 
 const NFT = () => {
-  const options = [
-    {
-      value: 'chocolate',
-      label: <MenuItem logo="/media/nft/ronaldo26.svg" name="NFT48" />,
-    },
-    { value: 'strawberry', label: <MenuItem logo="/media/nft/ronaldo26.svg" name="NFT49" /> },
-    { value: 'vanilla', label: <MenuItem logo="/media/nft/ronaldo26.svg" name="NFT45" /> },
-    {
-      value: 'chocolate1',
-      label: <MenuItem logo="/media/nft/ronaldo26.svg" name="NFT44" />,
-    },
-    { value: 'strawberry1', label: <MenuItem logo="/media/nft/ronaldo26.svg" name="NFT47" /> },
-    { value: 'vanilla1', label: <MenuItem logo="/media/nft/ronaldo26.svg" name="NFT46" /> },
-  ]
+  const [selectedTokenIds, setSelectedTokenIds] = useState([])
+  const [fetchingData, setFetchingData] = useState(false)
+  const [placeholder, setPlaceholder] = useState('1,2,3,...')
+  const [options, setOptions] = useState([])
+  const bridge = useBridge()
+  const addNfts = useAddNFTs()
+  const tokenUris = useFetchOwnedNFT(
+    bridge.collection ? bridge.collection.address[bridge.fromChain?.id] : '',
+    bridge.fromChain?.id
+  )
+  useEffect(() => {
+    let newOptions = []
+    if (tokenUris) {
+      newOptions = Object.keys(tokenUris).map((tokenId) => {
+        let item = {}
+        item.value = tokenId
+        item.label = (
+          <MenuItem
+            logo={tokenUris[tokenId].image}
+            nftId={tokenId}
+            isSelected={selectedTokenIds.find((selectedToken) => selectedToken == tokenId) !== undefined}
+          />
+        )
+        item.isSelected = selectedTokenIds.find((selectedToken) => selectedToken == tokenId) !== undefined
+        return item
+      })
+      setFetchingData(false)
+    }
+    setOptions(sortOptions(newOptions, selectedTokenIds))
+  }, [tokenUris, selectedTokenIds, fetchingData])
+
+  useEffect(() => {
+    setFetchingData(true)
+    setSelectedTokenIds([])
+    setOptions([])
+  }, [bridge.collection])
+
+  useEffect(() => {
+    if (selectedTokenIds.length > 0) {
+      setPlaceholder(selectedTokenIds.join(','))
+    } else {
+      setPlaceholder('1,2,3,...')
+    }
+    const ids = selectedTokenIds.join(',').split(/[ ,]/)
+    const uniqueId = Array.from(new Set(ids.filter((id) => id !== '')))
+    let nft = ''
+    if (uniqueId.length > 0) {
+      nft = uniqueId
+    }
+    addNfts(nft)
+  }, [selectedTokenIds])
+
+  const Menu = (props) => {
+    return (
+      <components.Menu {...props}>
+        {fetchingData ? <FetchingData>Load NFTs...</FetchingData> : props.children}
+      </components.Menu>
+    )
+  }
+  const Placeholder = (props) => {
+    return (
+      <components.Placeholder {...props}>
+        <Type.MD color="#919191">{fetchingData ? 'Load NFTs...' : placeholder}</Type.MD>
+      </components.Placeholder>
+    )
+  }
+
+  const handleSelectNFT = (selectedOptions, event) => {
+    let tokenId = event.option.value
+    if (!selectedTokenIds.includes(tokenId)) {
+      setSelectedTokenIds((selectedTokenIds) => [...selectedTokenIds, tokenId])
+    } else {
+      for (var i = 0; i < selectedTokenIds.length; i++) {
+        if (selectedTokenIds[i] === tokenId) {
+          setSelectedTokenIds([...selectedTokenIds.slice(0, i), ...selectedTokenIds.slice(i + 1)])
+        }
+      }
+    }
+  }
   return (
-    <Wrapper marginBottom="35px">
+    <Wrapper marginBottom="15px">
       <Flex width="100%">
         <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
           Select NFT
         </Type.SM>
       </Flex>
-      {/* <Flex width="100%" maxWidth="470px"> */}
-      <Select options={options} isMulti styles={colourStyles} />
-      {/* </Flex> */}
+      <Select
+        options={options}
+        isMulti
+        styles={ReactSelectStyle}
+        components={{ Placeholder, DropdownIndicator, Menu }}
+        controlShouldRenderValue={false}
+        hideSelectedOptions={false}
+        closeMenuOnSelect={false}
+        backspaceRemovesValue={false}
+        isClearable={false}
+        closeMenuOnScroll={true}
+        onChange={handleSelectNFT}
+      />
     </Wrapper>
   )
 }

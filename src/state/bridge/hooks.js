@@ -1,6 +1,14 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { addCollection, addDestChain, addOriginChain, updateNFTOnDestBridge, updateNFTOnOriginBridge } from './actions'
+import {
+  addCollection,
+  addDestChain,
+  addNFTs,
+  addOriginChain,
+  removeBridge,
+  updateNFTOnDestBridge,
+  updateNFTOnOriginBridge,
+} from './actions'
 
 export function useBridge() {
   return useAppSelector((state) => state.bridge)
@@ -34,6 +42,23 @@ export function useAddCollection() {
     },
     [dispatch]
   )
+}
+
+export function useAddNFTs() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (nfts) => {
+      dispatch(addNFTs(nfts))
+    },
+    [dispatch]
+  )
+}
+
+export function useRemoveBridge() {
+  const dispatch = useAppDispatch()
+  return useCallback(() => {
+    dispatch(removeBridge())
+  }, [dispatch])
 }
 
 export function useChangeNFTOnOriginChain() {

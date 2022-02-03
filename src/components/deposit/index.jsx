@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { Flex } from 'rebass'
-import styled from 'styled-components'
 import { AddressZero } from '@ethersproject/constants'
 import { ChainStatus } from '../../constants/constants'
-import { useAddCollection, useBridge } from '../../state/bridge/hooks'
+import { useBridge } from '../../state/bridge/hooks'
 import NetworkHint from '../common/NetworkHint'
 import { Box } from '../container/Container'
 import { GradientTitle, Title } from '../text/Title'
@@ -14,32 +13,15 @@ import Info from './Info'
 import { getTokenId, checkNFTOnDestBridge } from '../../utils/checkNFTOnBridge'
 import { useChangeNFTOnOriginChain, useChangeNFTOnDestChain } from '../../state/bridge/hooks'
 import CopyAddress from './CopyAddress'
-
-const Container = styled.div`
-  max-width: '470px';
-  width: 100%;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 4px ${({ shadowColor }) => (shadowColor ? shadowColor : 'rgba(239, 239, 239, 0.25)')};
-  min-height: ${({ minHeight }) => (minHeight ? minHeight : '500px')};
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-export const TriangleDown = styled.div`
-  width: 0;
-  height: 0;
-  border-left: 116px solid transparent;
-  border-right: 116px solid transparent;
-  border-top: 24px solid #d3dbe3;
-  position: relative;
-`
+import { Container, TriangleDown } from './deposit.style'
+import useNFTIsApprove from '../../hooks/useNFTIsApprove'
 
 const Deposit = () => {
   const bridge = useBridge()
   const changeNFTOnOriginBridge = useChangeNFTOnOriginChain()
   const changeNFTOnDestBridge = useChangeNFTOnDestChain()
-  const updateCollection = useAddCollection()
+  const approve = useNFTIsApprove(bridge.collection, bridge.fromChain?.id)
+  console.log({ approve })
 
   useEffect(() => {
     const checkNFTExist = async () => {
@@ -53,25 +35,24 @@ const Deposit = () => {
 
   useEffect(() => {
     const checkNFTExist = async () => {
-      if (bridge.toChain && bridge.collection) {
+      if (bridge.toChain && bridge.NFTOnOriginBridge) {
         let address = await checkNFTOnDestBridge(bridge.toChain.id, bridge.NFTOnOriginBridge)
-        console.log(address)
         if (address !== AddressZero) {
           changeNFTOnDestBridge(address)
-          let selected = {
-            ...bridge.collection,
-            address: {
-              ...bridge.collection.address,
-              [bridge.toChain.id]: address,
-            },
-          }
-          updateCollection(selected)
+          // let selected = {
+          //   ...bridge.collection,
+          //   address: {
+          //     ...bridge.collection.address,
+          //     [bridge.toChain.id]: address,
+          //   },
+          // }
+          // updateCollection(selected)
         }
       }
     }
     checkNFTExist()
-  }, [bridge.toChain, bridge.collection, bridge.NFTOnOriginBridge])
-  console.log({ bridge })
+  }, [bridge.toChain, bridge.NFTOnOriginBridge])
+
   return (
     <Flex flexDirection="column" justifyContent="center" alignItems="center" width="100%">
       <Title>Muon MRC721 </Title>

@@ -1,6 +1,30 @@
 import { Flex } from 'rebass'
 import styled from 'styled-components'
 
+export const Container = styled.div`
+  max-width: '470px';
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px ${({ shadowColor }) => (shadowColor ? shadowColor : 'rgba(239, 239, 239, 0.25)')};
+  min-height: ${({ minHeight }) => (minHeight ? minHeight : '500px')};
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const Arrow = styled.img`
+  cursor: pointer;
+`
+export const TriangleDown = styled.div`
+  width: 0;
+  height: 0;
+  border-left: 116px solid transparent;
+  border-right: 116px solid transparent;
+  border-top: 24px solid #d3dbe3;
+  position: relative;
+`
+
 export const Circle = styled.div`
   width: 8px;
   height: 8px;
@@ -39,3 +63,55 @@ export const CopyBtn = styled.div`
     filter: brightness(0.9);
   }
 `
+export const CheckCircleWrapper = styled.div`
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 5px;
+`
+
+export const FetchingData = styled.span`
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  padding: 20px 0;
+  font-weight: 200;
+`
+export const ReactSelectStyle = {
+  container: (styles) => ({
+    ...styles,
+    width: '100%',
+  }),
+  control: (styles) => ({
+    ...styles,
+    backgroundColor: '#E6ECF2',
+    border: '1px solid #FFFFFF',
+    minHeight: '45px',
+    ':hover': {
+      filter: 'brightness(0.9)',
+      border: 'none',
+    },
+    ':focus': {
+      outline: 'none',
+    },
+  }),
+  dropdownIndicator: (styles) => ({ ...styles, paddingRight: '16px' }),
+  indicatorSeparator: (styles) => ({ ...styles, display: 'none' }),
+  option: (styles, { isDisabled, isFocused, isSelected }) => {
+    // console.log('issssssssss', isSelected)
+    return {
+      ...styles,
+      backgroundColor: isDisabled ? undefined : isFocused ? '#ffffff' : undefined,
+      color: isDisabled ? '#ccc' : isSelected ? 'balck' : '#666666',
+      cursor: isDisabled ? 'not-allowed' : 'default',
+
+      ':active': {
+        ...styles[':active'],
+        backgroundColor: !isDisabled ? (isSelected ? '#b7c0cb' : '#E6ECF2') : undefined,
+      },
+    }
+  },
+  menu: (styles) => ({
+    ...styles,
+    backgroundColor: '#E6ECF2',
+  }),
+}

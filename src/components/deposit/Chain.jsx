@@ -3,7 +3,7 @@ import SelectBox from './SelectBox'
 import { NameChainMap, rpcConfig } from '../../constants/chainsMap'
 import { validChains } from '../../constants/settings'
 import { ChainStatus } from '../../constants/constants'
-import { useAddOriginChain, useAddDestChain, useBridge } from '../../state/bridge/hooks'
+import { useAddOriginChain, useAddDestChain, useBridge, useRemoveBridge } from '../../state/bridge/hooks'
 
 const Chain = (props) => {
   const { type, value } = props
@@ -11,6 +11,7 @@ const Chain = (props) => {
   const bridge = useBridge()
   const addOriginChain = useAddOriginChain()
   const addDestChain = useAddDestChain()
+  const removeBridge = useRemoveBridge()
 
   useEffect(() => {
     fetchChain()
@@ -32,6 +33,7 @@ const Chain = (props) => {
   }
   const updateBridge = (data) => {
     if (type === ChainStatus.ORIGIN_CHAIN) {
+      removeBridge()
       addOriginChain(data)
     } else {
       addDestChain(data)
