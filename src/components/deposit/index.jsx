@@ -14,14 +14,11 @@ import { getTokenId, checkNFTOnDestBridge } from '../../utils/checkNFTOnBridge'
 import { useChangeNFTOnOriginChain, useChangeNFTOnDestChain } from '../../state/bridge/hooks'
 import CopyAddress from './CopyAddress'
 import { Container, TriangleDown } from './deposit.style'
-import useNFTIsApprove from '../../hooks/useNFTIsApprove'
 
 const Deposit = () => {
   const bridge = useBridge()
   const changeNFTOnOriginBridge = useChangeNFTOnOriginChain()
   const changeNFTOnDestBridge = useChangeNFTOnDestChain()
-  const approve = useNFTIsApprove(bridge.collection, bridge.fromChain?.id)
-  console.log({ approve })
 
   useEffect(() => {
     const checkNFTExist = async () => {
@@ -90,7 +87,7 @@ const Deposit = () => {
                 <CopyAddress
                   tokenSymbol={bridge.collection.symbol}
                   chainSymbol={bridge.toChain.symbol}
-                  address={bridge.collection.address[bridge.toChain.id]}
+                  address={bridge.NFTOnDestBridge}
                 />
               )}
             </>

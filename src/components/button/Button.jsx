@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Type } from '../text/Text'
 
 export const Button = styled.button`
   display: flex;
@@ -16,4 +17,23 @@ export const Button = styled.button`
   &:focus {
     outline: none;
   }
+`
+export const ActionButton = styled(Button)`
+  margin: 50px 0 0;
+  background: ${({ active }) => (active ? '#5F5CFE' : '#B4B3FD')};
+  border: ${({ active }) => (active ? 'transparent' : '1px solid #5F5CFE')};
+  cursor: ${({ active }) => (active ? 'pointer' : 'default')};
+`
+export const WarningButton = styled(ActionButton)`
+  margin: 50px 0 0;
+  background: rgba(255, 164, 81, 0.2);
+  border: 1px solid rgba(255, 164, 81, 1);
+  cursor: ${({ active }) => (active ? 'pointer' : 'default')};
+`
+
+export const ActionText = styled(Type.LG).attrs({
+  fontSizeXS: '16px',
+})`
+  color: ${({ active }) => (active ? '#ffffff' : '#313144')};
+  cursor: ${({ active }) => (active ? 'pointer' : 'default')};
 `

@@ -10,6 +10,7 @@ const supportedChainIds = [
   4, // Rinkeby
   42, // Kovan
   0x64, // xDAI
+  77, //sokol
   0x38, // BSC
   0x61, // BSC TEST
   250, // Fantom
@@ -27,6 +28,7 @@ const RPC_URLS = {
   56: 'https://bsc-dataseed1.binance.org',
   97: 'https://data-seed-prebsc-1-s1.binance.org:8545',
   100: 'https://rpc.xdaichain.com',
+  77: 'https://sokol.poa.network/',
   4002: 'https://rpc.testnet.fantom.network/',
   128: 'https://http-mainnet-node.huobichain.com',
   256: 'https://http-testnet.hecochain.com',

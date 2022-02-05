@@ -21,7 +21,7 @@ const Chain = (props) => {
     const chains = validChains.map((item) => ({
       id: item,
       name: NameChainMap[item],
-      symbol: rpcConfig[item].nativeCurrency.symbol,
+      symbol: rpcConfig[item].symbol,
     }))
 
     if (type === ChainStatus.DEST_CHAIN && bridge.fromChain) {

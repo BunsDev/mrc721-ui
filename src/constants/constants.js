@@ -7,6 +7,11 @@ export const SEARCHABLE = 'searchable'
 
 export const ActionBtnType = {
   SELECT: 'select',
+  ADD_MAIN_TOKEN: 'addMainToken',
+  ADD_BRIDGE_TOKEN: 'addBridgeToken',
+  NOT_OWNER: 'notOwner',
+  APPROVE: 'approve',
+  DEPOSIT: 'deposit',
 }
 
 export const NetworkContextName = 'NETWORK'

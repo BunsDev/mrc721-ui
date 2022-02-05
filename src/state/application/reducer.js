@@ -1,18 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { ActionBtnType } from '../../constants/constants'
-import { updateActionBtnType, updateSearchQuery } from './actions'
+// import { ActionBtnType } from '../../constants/constants'
+import { updateSearchQuery } from './actions'
 
 const initialState = {
   chainId: null,
-  actionBtnType: ActionBtnType.SELECT,
+  // actionBtnType: ActionBtnType.SELECT,
   searchQuery: '',
 }
 
 export default createReducer(initialState, (builder) => {
-  // Update Action button
-  builder.addCase(updateActionBtnType, (state, action) => {
-    return { ...state, actionBtnType: action.payload }
-  })
+  // // Update Action button
+  // builder.addCase(updateActionBtnType, (state, action) => {
+  //   return { ...state, actionBtnType: action.payload }
+  // })
   //Search Query Modal
   builder.addCase(updateSearchQuery, (state, action) => {
     return { ...state, searchQuery: action.payload }

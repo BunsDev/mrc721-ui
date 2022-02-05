@@ -7,6 +7,7 @@ export const ChainMap = {
   MATIC: 137,
   MATIC_TESTNET: 80001,
   XDAI: 100,
+  SOKOL: 77,
   FANTOM: 250,
   FANTOM_TESTNET: 4002,
   HECO: 128,
@@ -23,6 +24,7 @@ export const NameChainMap = {
   137: 'MATIC',
   80001: 'Mumbai',
   100: 'xDAI',
+  77: 'Sokol',
   250: 'FTM',
   4002: 'FTM TEST',
   128: 'HECO',
@@ -34,6 +36,7 @@ export const rpcConfig = {
   [ChainMap.ETH]: {
     chainId: '0x1',
     chainName: 'Ethereum Mainnet',
+    symbol: 'ETH',
     nativeCurrency: {
       name: 'ETH',
       symbol: 'ETH',
@@ -45,6 +48,7 @@ export const rpcConfig = {
   [ChainMap.RINKEBY]: {
     chainId: '0x4',
     chainName: 'Rinkeby Testnet',
+    symbol: 'ETH',
     nativeCurrency: {
       name: 'ETH',
       symbol: 'ETH',
@@ -56,6 +60,7 @@ export const rpcConfig = {
   [ChainMap.ROPSTEN]: {
     chainId: '0x3',
     chainName: 'Ropsten Testnet',
+    symbol: 'ETH',
     nativeCurrency: {
       name: 'ETH',
       symbol: 'ETH',
@@ -67,6 +72,7 @@ export const rpcConfig = {
   [ChainMap.BSC]: {
     chainId: '0x38',
     chainName: 'Binance Smart Chain Mainnet',
+    symbol: 'BSC',
     nativeCurrency: {
       name: 'BNB',
       symbol: 'BNB',
@@ -78,6 +84,7 @@ export const rpcConfig = {
   [ChainMap.BSC_TESTNET]: {
     chainId: '0x61',
     chainName: 'Binance Smart Chain Testnet',
+    symbol: 'BSC',
     nativeCurrency: {
       name: 'BNB',
       symbol: 'BNB',
@@ -89,6 +96,7 @@ export const rpcConfig = {
   [ChainMap.MATIC]: {
     chainId: '0x89',
     chainName: 'Matic Mainnet',
+    symbol: 'MATIC',
     nativeCurrency: {
       name: 'Matic',
       symbol: 'MATIC',
@@ -101,6 +109,7 @@ export const rpcConfig = {
   [ChainMap.MATIC_TESTNET]: {
     chainId: '0x13881',
     chainName: 'Mumbai',
+    symbol: 'MATIC',
     nativeCurrency: {
       name: 'Matic',
       symbol: 'MATIC',
@@ -113,6 +122,7 @@ export const rpcConfig = {
   [ChainMap.XDAI]: {
     chainId: '0x64',
     chainName: 'xDAI Chain',
+    symbol: 'xDAI',
     nativeCurrency: {
       name: 'xDAI',
       symbol: 'xDAI',
@@ -121,9 +131,22 @@ export const rpcConfig = {
     rpcUrls: ['https://rpc.xdaichain.com/'],
     blockExplorerUrls: ['https://blockscout.com/poa/xdai/'],
   },
+  [ChainMap.SOKOL]: {
+    chainId: '77',
+    chainName: 'Sokol',
+    symbol: 'xDAI',
+    nativeCurrency: {
+      name: 'xDAI',
+      symbol: 'xDAI',
+      decimals: 18,
+    },
+    rpcUrls: ['https://sokol.poa.network/'],
+    blockExplorerUrls: ['https://blockscout.com/poa/sokol'],
+  },
   [ChainMap.FANTOM]: {
     chainId: '0xFA',
     chainName: 'Fantom Opera',
+    symbol: 'FTM',
     nativeCurrency: {
       name: 'Fantom',
       symbol: 'FTM',
@@ -135,6 +158,7 @@ export const rpcConfig = {
   [ChainMap.FANTOM_TESTNET]: {
     chainId: '0xfa2',
     chainName: 'Fantom testnet Opera',
+    symbol: 'FTM',
     nativeCurrency: {
       name: 'Fantom',
       symbol: 'FTM',
@@ -147,6 +171,7 @@ export const rpcConfig = {
   [ChainMap.HECO]: {
     chainId: '0x80',
     chainName: 'Huobi ECO Chain Mainnet',
+    symbol: 'HT',
     nativeCurrency: {
       name: 'HT',
       symbol: 'HT',
@@ -158,6 +183,7 @@ export const rpcConfig = {
   [ChainMap.HECO_TESTNET]: {
     chainId: '0x100',
     chainName: 'Huobi ECO Chain Testnet',
+    symbol: 'HT',
     nativeCurrency: {
       name: 'htt',
       symbol: 'htt',
@@ -169,6 +195,7 @@ export const rpcConfig = {
   [ChainMap.AVALANCHE]: {
     chainId: '0xa86a',
     chainName: 'Avalanche Network',
+    symbol: 'AVAX',
     nativeCurrency: {
       name: 'AVAX',
       symbol: 'AVAX',

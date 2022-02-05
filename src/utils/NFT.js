@@ -108,7 +108,6 @@ export const getOwnedNFTs = async (account, chainId, contract) => {
     }
 
     const tokenUris = await getTokenUris(account, chainId, contract)
-    console.log('******', tokenUris)
     var tokenData = {}
     await Promise.all(
       Object.keys(tokenUris).map(async (tokenId) => {
@@ -124,7 +123,6 @@ export const getOwnedNFTs = async (account, chainId, contract) => {
         }
       })
     )
-    console.log({ tokenData })
     return tokenData
   } catch (error) {
     console.error(error)

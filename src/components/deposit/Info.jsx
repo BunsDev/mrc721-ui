@@ -15,6 +15,7 @@ const Info = (props) => {
             {`${name} ${!exist ? 'is not yet available on' : 'is available on'} ${chain}`}
           </Type.SM>
         </Flex>
+        {/* TODO: show sth for button info */}
         {!exist && <CopyBtn color={!exist && '#000000'}>Info</CopyBtn>}
       </WrapTokenAddress>
     </WrapperInfo>

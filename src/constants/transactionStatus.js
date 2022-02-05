@@ -13,4 +13,6 @@ export const TransactionType = {
   APPROVE: 'Approve',
   DEPOSIT: 'Deposit',
   CLAIM: 'Claim',
+  GENERATE_BRIDGE_TOKEN: 'GENERATE_BRIDGE_TOKEN',
+  GENERATE_MAIN_TOKEN: 'GENERATE_MAIN_TOKEN',
 }

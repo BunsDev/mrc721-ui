@@ -73,6 +73,7 @@ export const Image = styled.img`
   height: ${({ height }) => (height ? height : '26px')};
   padding-right: ${({ paddingRight }) => (paddingRight ? paddingRight : '11px')};
   box-sizing: ${({ boxSizing }) => boxSizing};
+  margin-left: ${({ marginLeft }) => (marginLeft ? marginLeft : '10px')};
 `
 
 export const ImageWithCursor = styled(Image)`
