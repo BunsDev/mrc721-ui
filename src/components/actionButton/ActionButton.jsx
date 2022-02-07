@@ -32,7 +32,6 @@ const ActionButtonComponent = (props) => {
   const handleConnectWallet = () => {
     setOpen(true)
   }
-  console.log(actionBtn)
   let contentBtn = ''
   if (!account)
     contentBtn = (

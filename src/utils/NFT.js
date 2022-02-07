@@ -25,11 +25,6 @@ export const getNFT = async (address, chainId) => {
         address: address,
         name: 'name',
       },
-      // {
-      //   address: address,
-      //   name: 'tokenURI',
-      //   params: [Number(nftId)]
-      // }
     ]
 
     const result = await multicall(web3, ERC721_ABI, calls, chainId)
@@ -119,6 +114,9 @@ export const getOwnedNFTs = async (account, chainId, contract) => {
             image: response.data.image || null,
           }
         } catch (error) {
+          tokenData[tokenId] = {
+            image: '/media/tokens/default.svg',
+          }
           console.log('error happend in fetch nft proxy')
         }
       })

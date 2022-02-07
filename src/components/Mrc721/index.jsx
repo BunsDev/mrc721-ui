@@ -8,17 +8,21 @@ import { Type } from '../text/Text'
 import Transaction from '../transaction/Transaction'
 import MuonNetwork from '../common/MuonNetwork'
 import useNFTIsApprove from '../../hooks/useNFTIsApprove'
-import { useBridge } from '../../state/bridge/hooks'
+import { useBridge, useSetFetch } from '../../state/bridge/hooks'
 import { useWeb3React } from '@web3-react/core'
 import { useTx } from '../../state/transactions/hooks'
 import { TransactionStatus, TransactionType } from '../../constants/transactionStatus'
 import useNFTApproval from '../../hooks/useNFTApproval'
 import useNFTDeposit from '../../hooks/useNFTDeposit'
+import useFetchClaim from '../../hooks/useFetchClaim'
 
 const MRC721 = () => {
   const { account, chainId } = useWeb3React()
   const bridge = useBridge()
-  const approve = useNFTIsApprove(bridge.collection, bridge.fromChain?.id)
+  const claims = useFetchClaim()
+  const setFetch = useSetFetch()
+
+  const approve = useNFTIsApprove(bridge.collection, bridge.fromChain?.id, bridge.fetch)
   const tx = useTx()
   const setApproval = useNFTApproval(bridge.collection?.address[bridge.fromChain?.id], bridge.fromChain?.id)
 
@@ -29,7 +33,7 @@ const MRC721 = () => {
     if (!chainId) return
     if (bridge.fromChain.id !== chainId) return
     if (tx.type === TransactionType.APPROVE && tx.status === TransactionStatus.PENDING) return
-    await setApproval()
+    setApproval().then(() => setFetch(Date.now()))
   }
 
   const handleDeposit = async () => {
@@ -37,7 +41,7 @@ const MRC721 = () => {
     if (!chainId) return
     if (tx.type === TransactionType.DEPOSIT && tx.status === TransactionStatus.PENDING) return
     if (bridge.fromChain.id !== chainId) return
-    await deposit()
+    deposit().then(() => setFetch(Date.now()))
   }
 
   return (
@@ -56,7 +60,7 @@ const MRC721 = () => {
       </Wrapper>
       <Wrapper maxWidth="300px" width="100%">
         {tx.status && <Transaction />}
-        <Claim />
+        {claims.length > 0 && <Claim claims={claims} />}
       </Wrapper>
     </Container>
   )

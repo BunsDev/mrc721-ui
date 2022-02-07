@@ -8,7 +8,7 @@ const useActionBtnType = () => {
   const [actionBtnType, setActionBtnType] = useState(ActionBtnType.SELECT)
   const bridge = useBridge()
   const owner = useNFTCheckOwner(bridge.collection, bridge.nftId, bridge.fromChain?.id)
-  const approve = useNFTIsApprove(bridge.collection, bridge.fromChain?.id)
+  const approve = useNFTIsApprove(bridge.collection, bridge.fromChain?.id, bridge.fetch)
   useEffect(() => {
     let action = ActionBtnType.SELECT
     if (!bridge.NFTOnOriginBridge && bridge.fromChain && bridge.collection) action = ActionBtnType.ADD_MAIN_TOKEN

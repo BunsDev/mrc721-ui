@@ -97,7 +97,6 @@ export const ReactSelectStyle = {
   dropdownIndicator: (styles) => ({ ...styles, paddingRight: '16px' }),
   indicatorSeparator: (styles) => ({ ...styles, display: 'none' }),
   option: (styles, { isDisabled, isFocused, isSelected }) => {
-    // console.log('issssssssss', isSelected)
     return {
       ...styles,
       backgroundColor: isDisabled ? undefined : isFocused ? '#ffffff' : undefined,

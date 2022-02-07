@@ -5,6 +5,7 @@ import {
   addDestChain,
   addNFTs,
   addOriginChain,
+  fetchData,
   removeBridge,
   updateNFTOnDestBridge,
   updateNFTOnOriginBridge,
@@ -76,6 +77,16 @@ export function useChangeNFTOnDestChain() {
   return useCallback(
     (nftExist) => {
       dispatch(updateNFTOnDestBridge(nftExist))
+    },
+    [dispatch]
+  )
+}
+
+export function useSetFetch() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (data) => {
+      dispatch(fetchData(data))
     },
     [dispatch]
   )

@@ -28,7 +28,6 @@ const useNFTCheckOwner = (collection, nftId, chainId) => {
             notOwnerIds.push(nftId[i])
           }
         }
-        console.log({ owner, notOwnerIds })
         setOwner(!notOwnerIds.length)
       } catch (error) {
         console.log('multicall error happened  in approve', error)

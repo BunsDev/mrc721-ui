@@ -46,15 +46,14 @@ const Transaction = () => {
     >
       <Flex justifyContent="space-between" width="100%">
         <Type.SM color="#313144" textTransform="capitalize">
-          transactions
+          {tx.type}
         </Type.SM>
         <Close onClick={handleClose}>&times;</Close>
       </Flex>
       <Flex justifyContent="flex-start" width="100%" marginTop="15px" alignItems="center">
-        <>
-          <Type.SM color="#313144">{tx.fromChain}</Type.SM>
-          <Arrow>&rarr;</Arrow>
-        </>
+        <Type.SM color="#313144">{tx.fromChain}</Type.SM>
+        {tx.toChain && <Arrow>&rarr;</Arrow>}
+
         <Type.SM color="#313144">{tx.toChain}</Type.SM>
       </Flex>
       <Flex justifyContent="space-between" width="100%" marginTop="15px">

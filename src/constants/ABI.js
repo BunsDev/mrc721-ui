@@ -350,7 +350,6 @@ export const ERC721_ABI = [
   },
 ]
 
-// TODO change abi this is for nft bridge
 export const MRC721Bridge_ABI = [
   {
     inputs: [{ internalType: 'address', name: '_muon', type: 'address' }],
@@ -360,18 +359,8 @@ export const MRC721Bridge_ABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'addr',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
+      { indexed: false, internalType: 'address', name: 'addr', type: 'address' },
+      { indexed: false, internalType: 'uint256', name: 'tokenId', type: 'uint256' },
       { indexed: false, internalType: 'bool', name: 'mintable', type: 'bool' },
     ],
     name: 'AddToken',
@@ -381,24 +370,9 @@ export const MRC721Bridge_ABI = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: 'address', name: 'user', type: 'address' },
-      {
-        indexed: false,
-        internalType: 'uint256[]',
-        name: 'nftId',
-        type: 'uint256[]',
-      },
-      {
-        indexed: true,
-        internalType: 'uint256',
-        name: 'fromChain',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
+      { indexed: false, internalType: 'uint256[]', name: 'nftId', type: 'uint256[]' },
+      { indexed: true, internalType: 'uint256', name: 'fromChain', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'tokenId', type: 'uint256' },
       { indexed: false, internalType: 'uint256', name: 'txId', type: 'uint256' },
     ],
     name: 'Claim',
@@ -407,30 +381,10 @@ export const MRC721Bridge_ABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'txId',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256[]',
-        name: 'nftId',
-        type: 'uint256[]',
-      },
-      {
-        indexed: true,
-        internalType: 'uint256',
-        name: 'toChain',
-        type: 'uint256',
-      },
+      { indexed: false, internalType: 'uint256', name: 'txId', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'tokenId', type: 'uint256' },
+      { indexed: false, internalType: 'uint256[]', name: 'nftId', type: 'uint256[]' },
+      { indexed: true, internalType: 'uint256', name: 'toChain', type: 'uint256' },
       { indexed: true, internalType: 'address', name: 'user', type: 'address' },
     ],
     name: 'Deposit',
@@ -439,21 +393,53 @@ export const MRC721Bridge_ABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'previousOwner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
+      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { indexed: true, internalType: 'bytes32', name: 'previousAdminRole', type: 'bytes32' },
+      { indexed: true, internalType: 'bytes32', name: 'newAdminRole', type: 'bytes32' },
     ],
-    name: 'OwnershipTransferred',
+    name: 'RoleAdminChanged',
     type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { indexed: true, internalType: 'address', name: 'account', type: 'address' },
+      { indexed: true, internalType: 'address', name: 'sender', type: 'address' },
+    ],
+    name: 'RoleGranted',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { indexed: true, internalType: 'address', name: 'account', type: 'address' },
+      { indexed: true, internalType: 'address', name: 'sender', type: 'address' },
+    ],
+    name: 'RoleRevoked',
+    type: 'event',
+  },
+  {
+    inputs: [],
+    name: 'ADMIN_ROLE',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'TOKEN_ADDER_ROLE',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     inputs: [],
@@ -464,29 +450,11 @@ export const MRC721Bridge_ABI = [
   },
   {
     inputs: [
-      { internalType: 'uint256[2]', name: 'tokenInfo', type: 'uint256[2]' },
-      { internalType: 'string', name: '_name', type: 'string' },
-      { internalType: 'string', name: '_symbol', type: 'string' },
-      { internalType: 'bytes', name: '_reqId', type: 'bytes' },
-      {
-        components: [
-          { internalType: 'uint256', name: 'signature', type: 'uint256' },
-          { internalType: 'address', name: 'owner', type: 'address' },
-          { internalType: 'address', name: 'nonce', type: 'address' },
-        ],
-        internalType: 'struct IMuonV02.SchnorrSign[]',
-        name: '_sigs',
-        type: 'tuple[]',
-      },
+      { internalType: 'uint256', name: 'tokenId', type: 'uint256' },
+      { internalType: 'address', name: 'tokenAddress', type: 'address' },
+      { internalType: 'bool', name: '_mintable', type: 'bool' },
     ],
-    name: 'addBridgeToken',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: '_tokenContract', type: 'address' }],
-    name: 'addMainToken',
+    name: 'addToken',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -575,6 +543,13 @@ export const MRC721Bridge_ABI = [
     type: 'function',
   },
   {
+    inputs: [{ internalType: 'bytes32', name: 'role', type: 'bytes32' }],
+    name: 'getRoleAdmin',
+    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [{ internalType: 'address', name: '_addr', type: 'address' }],
     name: 'getTokenId',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
@@ -606,6 +581,26 @@ export const MRC721Bridge_ABI = [
     type: 'function',
   },
   {
+    inputs: [
+      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'grantRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'hasRole',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [{ internalType: 'address', name: '', type: 'address' }],
     name: 'ids',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
@@ -616,6 +611,13 @@ export const MRC721Bridge_ABI = [
     inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     name: 'mintable',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'muon',
+    outputs: [{ internalType: 'contract IMuonV02', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
@@ -639,51 +641,6 @@ export const MRC721Bridge_ABI = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'owner',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_tokenId', type: 'uint256' },
-      { internalType: 'address', name: '_tokenContract', type: 'address' },
-      { internalType: 'bool', name: '_mintable', type: 'bool' },
-    ],
-    name: 'ownerAddToken',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_tokenId', type: 'uint256' },
-      { internalType: 'bool', name: '_mintable', type: 'bool' },
-    ],
-    name: 'ownerSetMintable',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'uint256', name: '_network', type: 'uint256' }],
-    name: 'ownerSetNetworkID',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_network', type: 'uint256' },
-      { internalType: 'address', name: '_addr', type: 'address' },
-    ],
-    name: 'ownerSetSideContract',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
     inputs: [
       { internalType: 'uint256', name: 'fromChain', type: 'uint256' },
       { internalType: 'uint256[]', name: '_ids', type: 'uint256[]' },
@@ -694,8 +651,38 @@ export const MRC721Bridge_ABI = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'renounceOwnership',
+    inputs: [
+      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'renounceRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'revokeRole',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '_network', type: 'uint256' }],
+    name: 'setNetworkID',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'uint256', name: '_network', type: 'uint256' },
+      { internalType: 'address', name: '_addr', type: 'address' },
+    ],
+    name: 'setSideContract',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -708,17 +695,17 @@ export const MRC721Bridge_ABI = [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    name: 'tokens',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    inputs: [{ internalType: 'bytes4', name: 'interfaceId', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
+    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: 'tokens',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
     type: 'function',
   },
   {

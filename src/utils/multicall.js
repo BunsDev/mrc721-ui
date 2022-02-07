@@ -5,7 +5,6 @@ import { toCheckSumAddress } from './toCheckSumAddress'
 
 const multicall = async (web3, abi, calls, chainId) => {
   try {
-    console.log({ calls, chainId })
     const multi = getMultiCallContract(web3, chainId)
 
     const itf = new Interface(abi)

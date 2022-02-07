@@ -7,6 +7,7 @@ import {
   updateNFTOnDestBridge,
   addNFTs,
   removeBridge,
+  fetchData,
 } from './actions'
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   toChain: null,
   NFTOnOriginBridge: false,
   NFTOnDestBridge: false,
+  fetch: null,
 }
 
 export default createReducer(initialState, (builder) => {
@@ -43,6 +45,12 @@ export default createReducer(initialState, (builder) => {
   builder.addCase(updateNFTOnDestBridge, (state, action) => {
     return { ...state, NFTOnDestBridge: action.payload }
   })
+  // update fetch
+  builder.addCase(fetchData, (state, action) => {
+    return { ...state, fetch: action.payload }
+  })
+
+  // remove bridge
   builder.addCase(removeBridge, () => {
     return {
       fromChain: null,

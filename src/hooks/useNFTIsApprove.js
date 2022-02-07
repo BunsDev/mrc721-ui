@@ -5,7 +5,7 @@ import { MRC721Bridge } from '../constants/contracts'
 import { getContract } from '../utils/contractHelpers'
 import { getWeb3NoAccount } from '../utils/web3'
 
-const useNFTIsApprove = (collection, chainId) => {
+const useNFTIsApprove = (collection, chainId, fetch) => {
   const [isApproveAll, setIsApproveAll] = useState(false)
   const { account } = useWeb3React()
 
@@ -18,7 +18,7 @@ const useNFTIsApprove = (collection, chainId) => {
       setIsApproveAll(approve)
     }
     if (collection && chainId && account) checkApprove()
-  }, [collection, chainId, account])
+  }, [collection, chainId, account, fetch])
 
   return isApproveAll
 }

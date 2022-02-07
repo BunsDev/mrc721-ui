@@ -13,3 +13,5 @@ export const removeBridge = createAction('REMOVE_BRIDGE')
 export const updateNFTOnOriginBridge = createAction('UPDATE_NFT_ON_ORIGIN_CHAIN')
 
 export const updateNFTOnDestBridge = createAction('UPDATE_NFT_ON_DEST_CHAIN')
+
+export const fetchData = createAction('FETCH_DATA')

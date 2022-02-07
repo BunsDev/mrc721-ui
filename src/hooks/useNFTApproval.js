@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { ERC721_ABI } from '../constants/ABI'
 import { getContract } from '../utils/contractHelpers'
-import useWeb3 from '../hooks/useWeb3'
+import useWeb3 from './useWeb3'
 import { MRC721Bridge } from '../constants/contracts'
 import { useWeb3React } from '@web3-react/core'
 import { useAddTransaction } from '../state/transactions/hooks'
@@ -35,34 +35,38 @@ const useNFTApproval = (address, chainId) => {
         console.error('tokenContract is null')
         return
       }
-      return contract.methods
-        .setApprovalForAll(MRC721Bridge[chainId], true)
-        .send({ from: account })
-        .once('transactionHash', (tx) => {
-          hash = tx
-          addTransaction({
-            ...info,
-            hash: tx,
-            message: 'Approving transaction is pending',
-            status: TransactionStatus.PENDING,
+      return new Promise((resolve, reject) => {
+        contract.methods
+          .setApprovalForAll(MRC721Bridge[chainId], true)
+          .send({ from: account })
+          .once('transactionHash', (tx) => {
+            hash = tx
+            addTransaction({
+              ...info,
+              hash: tx,
+              message: 'Approving transaction is pending',
+              status: TransactionStatus.PENDING,
+            })
           })
-        })
-        .once('receipt', ({ transactionHash }) => {
-          addTransaction({
-            ...info,
-            hash: transactionHash,
-            message: 'Transaction successful',
-            status: TransactionStatus.SUCCESS,
+          .once('receipt', ({ transactionHash }) => {
+            addTransaction({
+              ...info,
+              hash: transactionHash,
+              message: 'Transaction successful',
+              status: TransactionStatus.SUCCESS,
+            })
+            resolve()
           })
-        })
-        .once('error', (error) => {
-          if (!hash) {
-            addTransaction({ ...info, message: 'Transaction rejected', status: TransactionStatus.FAILED })
-            console.log('error happend in useNFTAPPROVAL', error)
-            return
-          }
-          addTransaction({ ...info, hash, message: 'Transaction rejected', status: TransactionStatus.FAILED })
-        })
+          .once('error', (error) => {
+            if (!hash) {
+              addTransaction({ ...info, message: 'Transaction rejected', status: TransactionStatus.FAILED })
+              console.log('error happend in useNFTAPPROVAL', error)
+              return
+            }
+            addTransaction({ ...info, hash, message: 'Transaction rejected', status: TransactionStatus.FAILED })
+            reject()
+          })
+      })
     }, [address, contract, account, addTransaction, chainId])
     return approve
   } catch (error) {
