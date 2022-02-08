@@ -31,12 +31,12 @@ export const MenuItem = ({ logo, nftId, isSelected }) => {
 
 const NFT = () => {
   const [selectedTokenIds, setSelectedTokenIds] = useState([])
-  const [fetchingData, setFetchingData] = useState(false)
+  // const [fetchingData, setFetchingData] = useState(false)
   const [placeholder, setPlaceholder] = useState('1,2,3,...')
   const [options, setOptions] = useState([])
   const bridge = useBridge()
   const addNfts = useAddNFTs()
-  const tokenUris = useFetchOwnedNFT(
+  const { tokenUris, fetch } = useFetchOwnedNFT(
     bridge.collection ? bridge.collection.address[bridge.fromChain?.id] : '',
     bridge.fromChain?.id
   )
@@ -58,15 +58,11 @@ const NFT = () => {
       })
       // setFetchingData(false)
     }
-    if (newOptions.length > 0) setOptions(sortOptions(newOptions, selectedTokenIds))
-  }, [tokenUris, selectedTokenIds, fetchingData])
+    setOptions(sortOptions(newOptions, selectedTokenIds))
+  }, [tokenUris, selectedTokenIds, fetch])
 
   useEffect(() => {
-    if (options.length > 0) setFetchingData(false)
-  }, [options])
-
-  useEffect(() => {
-    if (bridge.collection) setFetchingData(true)
+    // if (bridge.collection) setFetchingData(true)
     setSelectedTokenIds([])
     setOptions([])
   }, [bridge.collection])
@@ -89,7 +85,7 @@ const NFT = () => {
   const Menu = (props) => {
     return (
       <components.Menu {...props}>
-        {fetchingData ? (
+        {fetch ? (
           <Flex justifyContent="center" padding="20px">
             <ImageSpin src="/media/common/pending.svg" />
           </Flex>
@@ -102,7 +98,7 @@ const NFT = () => {
   const Placeholder = (props) => {
     return (
       <components.Placeholder {...props}>
-        <Type.MD color="#919191">{fetchingData ? 'Load NFTs...' : placeholder}</Type.MD>
+        <Type.MD color="#919191">{fetch ? 'Load NFTs...' : placeholder}</Type.MD>
       </components.Placeholder>
     )
   }

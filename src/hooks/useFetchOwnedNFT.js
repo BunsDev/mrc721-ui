@@ -8,18 +8,21 @@ const useFetchOwnedNFT = (collection, chainId) => {
   const { account } = useWeb3React()
   const bridge = useBridge()
   const [tokenUris, setTokenUris] = useState({})
+  const [fetch, setFetch] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
+      setFetch(true)
       let nfts = await getOwnedNFTs(account, chainId, collection)
       if (isObject(nfts)) {
         setTokenUris(nfts)
       }
+      setFetch(false)
     }
 
     if (account && collection && chainId) fetchData()
   }, [collection, chainId, account, bridge.fetch])
-  return tokenUris
+  return { tokenUris, fetch }
 }
 
 export default useFetchOwnedNFT
