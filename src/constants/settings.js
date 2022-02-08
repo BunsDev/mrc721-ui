@@ -1,1 +1,1 @@
-export const validChains = [4, 80001]
+export const validChains = [4, 97, 80001]

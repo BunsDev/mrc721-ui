@@ -43,6 +43,7 @@ const Transaction = () => {
       borderRadius="10px"
       background=" linear-gradient(0deg, #E7EBF3 0%, rgba(231, 235, 243, 0.25) 105.18%)"
       border="1px solid #ffffff"
+      maxWidth="300px"
     >
       <Flex justifyContent="space-between" width="100%">
         <Type.SM color="#313144" textTransform="capitalize">

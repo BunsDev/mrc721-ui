@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Flex } from 'rebass'
 import { CheckCircle, Circle } from 'react-feather'
 import Select, { components } from 'react-select'
-import { Image } from '../common/FormControlls'
+import { Image, ImageSpin } from '../common/FormControlls'
 import { Type } from '../text/Text'
 import { Wrapper } from '../container/Container'
-import { Arrow, CheckCircleWrapper, FetchingData, ReactSelectStyle } from './deposit.style'
+import { Arrow, CheckCircleWrapper, ReactSelectStyle } from './deposit.style'
 import useFetchOwnedNFT from '../../hooks/useFetchOwnedNFT'
 import { sortOptions } from '../../utils/NFT'
 import { useAddNFTs, useBridge } from '../../state/bridge/hooks'
@@ -56,13 +56,18 @@ const NFT = () => {
         item.isSelected = selectedTokenIds.find((selectedToken) => selectedToken == tokenId) !== undefined
         return item
       })
-      setFetchingData(false)
+      // setFetchingData(false)
     }
-    setOptions(sortOptions(newOptions, selectedTokenIds))
+    if (newOptions.length > 0) setOptions(sortOptions(newOptions, selectedTokenIds))
   }, [tokenUris, selectedTokenIds, fetchingData])
 
   useEffect(() => {
-    setFetchingData(true)
+    console.log({ options })
+    if (options.length > 0) setFetchingData(false)
+  }, [options])
+
+  useEffect(() => {
+    if (bridge.collection) setFetchingData(true)
     setSelectedTokenIds([])
     setOptions([])
   }, [bridge.collection])
@@ -85,7 +90,13 @@ const NFT = () => {
   const Menu = (props) => {
     return (
       <components.Menu {...props}>
-        {fetchingData ? <FetchingData>Load NFTs...</FetchingData> : props.children}
+        {fetchingData ? (
+          <Flex justifyContent="center" padding="20px">
+            <ImageSpin src="/media/common/pending.svg" />
+          </Flex>
+        ) : (
+          props.children
+        )}
       </components.Menu>
     )
   }

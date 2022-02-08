@@ -69,13 +69,6 @@ export const CheckCircleWrapper = styled.div`
   padding-left: 5px;
 `
 
-export const FetchingData = styled.span`
-  display: flex;
-  justify-content: center;
-  font-size: 30px;
-  padding: 20px 0;
-  font-weight: 200;
-`
 export const ReactSelectStyle = {
   container: (styles) => ({
     ...styles,

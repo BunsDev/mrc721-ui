@@ -15,7 +15,7 @@ const MuonResponse = async (app, method, params) => {
         ? muonResponse.error.message
         : muonResponse.error
         ? muonResponse.error
-        : 'Muon response failed'
+        : 'Muon response failed.'
       return { ...muonResponse, errorMessage }
     }
     return muonResponse
