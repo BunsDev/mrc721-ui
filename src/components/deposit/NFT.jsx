@@ -62,7 +62,6 @@ const NFT = () => {
   }, [tokenUris, selectedTokenIds, fetchingData])
 
   useEffect(() => {
-    console.log({ options })
     if (options.length > 0) setFetchingData(false)
   }, [options])
 

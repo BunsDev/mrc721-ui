@@ -39,6 +39,7 @@ const useCalim = () => {
           })
           return
         }
+        console.log({ muonResponse })
         let { sigs, reqId } = muonResponse
         const contract = getContract(MRC721Bridge_ABI, MRC721Bridge[chainId], web3)
         return new Promise((resolve, reject) => {

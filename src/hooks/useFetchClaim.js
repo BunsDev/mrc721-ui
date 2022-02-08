@@ -22,11 +22,9 @@ const useFetchClaim = () => {
 
       try {
         let userTxs = await originContract.methods.getUserTxs(account, bridge.toChain.id).call()
-        console.log({ userTxs })
         let pendingTxs = await destContract.methods.pendingTxs(bridge.fromChain.id, userTxs).call()
 
         const pendingIndex = pendingTxs.reduce((out, bool, index) => (bool ? out : out.concat(index)), [])
-        console.log({ pendingIndex })
         const Txs = []
         for (let index = 0; index < pendingIndex.length; index++) {
           const tx = {

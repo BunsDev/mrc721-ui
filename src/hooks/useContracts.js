@@ -7,8 +7,6 @@ import { getContract2 } from '../utils/contractHelpers'
 export function useContract(addressOrAddressMap, ABI, withSignerIfPossible) {
   const { library, account, chainId } = useWeb3React()
 
-  console.log({ library, account, chainId })
-
   return useMemo(() => {
     if (!addressOrAddressMap || !ABI || !library || !chainId) return null
     let address
