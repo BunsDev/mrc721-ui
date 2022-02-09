@@ -36,10 +36,12 @@ const NFT = () => {
   const [options, setOptions] = useState([])
   const bridge = useBridge()
   const addNfts = useAddNFTs()
+
   const { tokenUris, fetch } = useFetchOwnedNFT(
     bridge.collection ? bridge.collection.address[bridge.fromChain?.id] : '',
     bridge.fromChain?.id
   )
+
   useEffect(() => {
     let newOptions = []
     if (tokenUris) {
@@ -56,16 +58,14 @@ const NFT = () => {
         item.isSelected = selectedTokenIds.find((selectedToken) => selectedToken == tokenId) !== undefined
         return item
       })
-      // setFetchingData(false)
     }
     setOptions(sortOptions(newOptions, selectedTokenIds))
   }, [tokenUris, selectedTokenIds, fetch])
 
   useEffect(() => {
-    // if (bridge.collection) setFetchingData(true)
     setSelectedTokenIds([])
     setOptions([])
-  }, [bridge.collection])
+  }, [bridge.collection, bridge.fetch])
 
   useEffect(() => {
     if (selectedTokenIds.length > 0) {

@@ -26,6 +26,7 @@ const Claim = (props) => {
         setFetch(Date.now())
       })
       .catch(() => {
+        setFetch(Date.now())
         setLock(false)
       })
   }

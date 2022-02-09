@@ -12,12 +12,16 @@ const useFetchOwnedNFT = (collection, chainId) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setFetch(true)
-      let nfts = await getOwnedNFTs(account, chainId, collection)
-      if (isObject(nfts)) {
-        setTokenUris(nfts)
+      try {
+        setFetch(true)
+        let nfts = await getOwnedNFTs(account, chainId, collection)
+        if (isObject(nfts)) {
+          setTokenUris(nfts)
+        }
+        setFetch(false)
+      } catch (error) {
+        console.log('Error happend in fetchOwnedNFT', error)
       }
-      setFetch(false)
     }
 
     if (account && collection && chainId) fetchData()

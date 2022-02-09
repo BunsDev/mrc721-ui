@@ -11,11 +11,15 @@ const useNFTIsApprove = (collection, chainId, fetch) => {
 
   useEffect(() => {
     const checkApprove = async () => {
-      const web3 = getWeb3NoAccount(chainId)
+      try {
+        const web3 = getWeb3NoAccount(chainId)
 
-      const contract = getContract(ERC721_ABI, collection.address[chainId], web3)
-      let approve = await contract.methods.isApprovedForAll(account, MRC721Bridge[chainId]).call()
-      setIsApproveAll(approve)
+        const contract = getContract(ERC721_ABI, collection.address[chainId], web3)
+        let approve = await contract.methods.isApprovedForAll(account, MRC721Bridge[chainId]).call()
+        setIsApproveAll(approve)
+      } catch (error) {
+        console.log('error happend in Check Approve', error)
+      }
     }
     if (collection && chainId && account) checkApprove()
   }, [collection, chainId, account, fetch])

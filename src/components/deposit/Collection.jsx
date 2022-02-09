@@ -12,6 +12,7 @@ const Collection = (props) => {
   const updateBridge = (data) => {
     addCollection(data)
   }
+
   return (
     <SelectBox
       label="Select an asset"

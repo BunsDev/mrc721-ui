@@ -24,47 +24,52 @@ const useNFTDeposit = (chainId) => {
       tokenSymbol: bridge.collection?.name,
     }
     const deposit = useCallback(async () => {
-      if (!contract) {
-        console.error('contract is null')
-        return
-      }
-      return contract.methods
-        .deposit(bridge.nftId, bridge.toChain.id, bridge.NFTOnOriginBridge)
-        .send({ from: account })
-        .once('transactionHash', (tx) => {
-          hash = tx
-          addTransaction({
-            ...info,
-            hash,
-            message: 'Depositing transaction is pending',
-            status: TransactionStatus.PENDING,
-          })
-        })
-        .once('receipt', ({ transactionHash }) => {
-          addTransaction({
-            ...info,
-            hash: transactionHash,
-            message: 'Transaction successful',
-            status: TransactionStatus.SUCCESS,
-          })
-        })
-        .once('error', (error) => {
-          if (!hash) {
+      try {
+        if (!contract) {
+          console.error('contract is null')
+          return
+        }
+        return contract.methods
+          .deposit(bridge.nftId, bridge.toChain.id, bridge.NFTOnOriginBridge)
+          .send({ from: account })
+          .once('transactionHash', (tx) => {
+            hash = tx
             addTransaction({
               ...info,
-              message: 'Transaction rejected',
+              hash,
+              message: 'Depositing transaction is pending',
+              status: TransactionStatus.PENDING,
+            })
+          })
+          .once('receipt', ({ transactionHash }) => {
+            addTransaction({
+              ...info,
+              hash: transactionHash,
+              message: 'Transaction successful',
+              status: TransactionStatus.SUCCESS,
+            })
+          })
+          .once('error', (error) => {
+            console.log('error in deposit', error)
+
+            if (!hash) {
+              addTransaction({
+                ...info,
+                message: 'Transaction rejected',
+                status: TransactionStatus.FAILED,
+              })
+              return
+            }
+            addTransaction({
+              ...info,
+              hash,
+              message: 'Transaction failed',
               status: TransactionStatus.FAILED,
             })
-            console.log('error in deposit', error)
-            return
-          }
-          addTransaction({
-            ...info,
-            hash,
-            message: 'Transaction failed',
-            status: TransactionStatus.FAILED,
           })
-        })
+      } catch (error) {
+        console.log('Error happend in deposit call back', error)
+      }
     }, [contract, account, addTransaction, chainId])
     return deposit
   } catch (error) {

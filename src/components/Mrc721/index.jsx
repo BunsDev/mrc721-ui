@@ -41,7 +41,9 @@ const MRC721 = () => {
     if (!chainId) return
     if (tx.type === TransactionType.DEPOSIT && tx.status === TransactionStatus.PENDING) return
     if (bridge.fromChain.id !== chainId) return
-    deposit().then(() => setFetch(Date.now()))
+    deposit()
+      .then(() => setFetch(Date.now()))
+      .catch(() => setFetch(Date.now()))
   }
 
   return (

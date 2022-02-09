@@ -15,7 +15,6 @@ const SelectBox = (props) => {
   const [selectedValue, setSelectedValue] = useState('')
 
   const changeSearchQuery = useChangeSearchQuery()
-
   React.useEffect(() => {
     if (value) {
       try {
