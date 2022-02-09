@@ -35,47 +35,50 @@ const useFetchClaim = () => {
 
           Txs.push(tx)
         }
-        try {
-          const claim = await multicall(originWeb3, MRC721Bridge_ABI, Txs, bridge.fromChain.id)
-          const tokenAddresses = []
-          for (let index = 0; index < pendingIndex.length; index++) {
-            const tokenAddress = {
-              address: MRC721Bridge[bridge.toChain.id],
-              name: 'tokens',
-              params: [claim[index].tokenId],
+        if (Txs.length > 0) {
+          try {
+            const claim = await multicall(originWeb3, MRC721Bridge_ABI, Txs, bridge.fromChain.id)
+            const tokenAddresses = []
+            for (let index = 0; index < pendingIndex.length; index++) {
+              const tokenAddress = {
+                address: MRC721Bridge[bridge.toChain.id],
+                name: 'tokens',
+                params: [claim[index].tokenId],
+              }
+
+              tokenAddresses.push(tokenAddress)
             }
 
-            tokenAddresses.push(tokenAddress)
-          }
-
-          let tokenAddress = await multicall(destWeb3, MRC721Bridge_ABI, tokenAddresses, bridge.toChain.id)
-          let infoNft = []
-          for (let index = 0; index < tokenAddress.length; index++) {
-            const calls = {
-              address: tokenAddress[index][0],
-              name: 'name',
+            let tokenAddress = await multicall(destWeb3, MRC721Bridge_ABI, tokenAddresses, bridge.toChain.id)
+            let infoNft = []
+            for (let index = 0; index < tokenAddress.length; index++) {
+              const calls = {
+                address: tokenAddress[index][0],
+                name: 'name',
+              }
+              infoNft.push(calls)
             }
-            infoNft.push(calls)
-          }
-          const Nfts = await multicall(destWeb3, ERC721_ABI, infoNft, bridge.toChain.id)
-          let claimNfts = []
-          for (let index = 0; index < pendingIndex.length; index++) {
-            let result = {
-              fromChain: claim[index].fromChain.toNumber(),
-              nftId: claim[index].nftId,
-              toChain: claim[index].toChain.toNumber(),
-              tokenId: claim[index].tokenId.toString(),
-              txId: claim[index].txId.toNumber(),
-              user: claim[index].user,
-              tokenAddress: tokenAddress[index][0],
-              name: Nfts[index][0],
+            const Nfts = await multicall(destWeb3, ERC721_ABI, infoNft, bridge.toChain.id)
+            let claimNfts = []
+            for (let index = 0; index < pendingIndex.length; index++) {
+              let result = {
+                fromChain: claim[index].fromChain.toNumber(),
+                nftId: claim[index].nftId,
+                toChain: claim[index].toChain.toNumber(),
+                tokenId: claim[index].tokenId.toString(),
+                txId: claim[index].txId.toNumber(),
+                user: claim[index].user,
+                tokenAddress: tokenAddress[index][0],
+                name: Nfts[index][0],
+              }
+              claimNfts.push(result)
             }
-            claimNfts.push(result)
+            claims = [...claims, ...claimNfts]
+          } catch (error) {
+            console.log('Error happend in geting Txs ', error)
           }
-          claims = [...claims, ...claimNfts]
-        } catch (error) {
-          console.log('Error happend in geting Txs ', error)
         }
+
         setClaims(claims)
       } catch (error) {
         console.log('error happend in get Claim', error)

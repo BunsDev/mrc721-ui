@@ -10,9 +10,9 @@ import { useWeb3React } from '@web3-react/core'
 import { TransactionStatus, TransactionType } from '../constants/transactionStatus'
 
 const useCalim = () => {
-  const web3 = useWeb3()
-  const { account, chainId } = useWeb3React()
+  const { account } = useWeb3React()
   const addTransaction = useAddTransaction()
+  const web3 = useWeb3()
 
   let hash = ''
   const doClaim = useCallback(
@@ -39,9 +39,10 @@ const useCalim = () => {
           })
           return
         }
-        console.log({ muonResponse })
+        console.log({ muonResponse, claim, contrcat: MRC721Bridge[claim.fromChain] })
         let { sigs, reqId } = muonResponse
-        const contract = getContract(MRC721Bridge_ABI, MRC721Bridge[chainId], web3)
+        const contract = getContract(MRC721Bridge_ABI, MRC721Bridge[claim.toChain], web3)
+        console.log({ cc: MRC721Bridge[claim.toChain], web3, tochain: claim.toChain })
         return new Promise((resolve, reject) => {
           contract.methods
             .claim(account, claim.nftId, [claim.fromChain, claim.toChain, claim.tokenId, claim.txId], reqId, sigs)
