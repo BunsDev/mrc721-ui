@@ -1,16 +1,19 @@
 import React from 'react'
 import { SEARCHABLE } from '../../constants/constants'
 import useSearchNFT from '../../hooks/useSearchNFT'
+import { useChangeSearchQuery } from '../../state/application/hooks'
 import { useAddCollection } from '../../state/bridge/hooks'
 import SelectBox from './SelectBox'
 
 const Collection = (props) => {
   const { value } = props
   const addCollection = useAddCollection()
+  const changeSearchQuery = useChangeSearchQuery()
   const NFTs = useSearchNFT()
 
   const updateBridge = (data) => {
     addCollection(data)
+    changeSearchQuery('')
   }
 
   return (
