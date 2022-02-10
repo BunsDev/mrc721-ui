@@ -15,3 +15,8 @@ export const ActionBtnType = {
 }
 
 export const NetworkContextName = 'NETWORK'
+
+export const SelectType = {
+  COLLECTION: 'collection',
+  DEST_CHAIN: 'destChain',
+}

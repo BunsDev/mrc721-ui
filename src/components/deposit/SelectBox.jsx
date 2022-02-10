@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Flex } from 'rebass'
-import { SEARCHABLE } from '../../constants/constants'
+import { SEARCHABLE, SelectType } from '../../constants/constants'
 import { useChangeSearchQuery } from '../../state/application/hooks'
 import { Image, Selector } from '../common/FormControlls'
 import { Wrapper } from '../container/Container'
@@ -10,7 +10,7 @@ import { Type } from '../text/Text'
 import { Arrow } from './deposit.style'
 
 const SelectBox = (props) => {
-  const { label, placeholder, data, onChange, value, marginBottom, border, type } = props
+  const { label, placeholder, data, onChange, value, marginBottom, border, type, selectType } = props
   const [open, setOpen] = useState(false)
   const [selectedValue, setSelectedValue] = useState('')
 
@@ -20,9 +20,10 @@ const SelectBox = (props) => {
       try {
         const selectedValue = data.find((item) => item.id === value)
         if (selectedValue) {
-          const icon = selectedValue.logo
-            ? selectedValue.logo
-            : `/media/chains/${selectedValue.symbol.toLowerCase()}.svg`
+          const icon =
+            selectType === SelectType.COLLECTION
+              ? '/media/tokens/default.svg'
+              : `/media/chains/${selectedValue.symbol.toLowerCase()}.svg`
           setSelectedValue({ ...selectedValue, icon })
         }
       } catch (error) {
@@ -53,9 +54,13 @@ const SelectBox = (props) => {
         >
           <ContentItem alignItems="center">
             <Image
-              src={item.logo ? item.logo : `/media/chains/${item.symbol.toLowerCase()}.svg`}
+              src={
+                selectType === SelectType.COLLECTION
+                  ? '/media/tokens/default.svg'
+                  : `/media/chains/${item.symbol.toLowerCase()}.svg`
+              }
               boxSizing="unset"
-              onError={(e) => (e.target.src = '/media/tokens/default.svg')}
+              // onError={(e) => (e.target.src = '/media/tokens/default.svg')}
             />
             <Type.MD color="#D3DBE3" fontWeight="bold">
               {item.name}

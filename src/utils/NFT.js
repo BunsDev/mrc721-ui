@@ -7,6 +7,7 @@ import { toCheckSumAddress } from './toCheckSumAddress'
 import { escapeRegExp } from './utils'
 import { ERC721_ABI } from '../constants/ABI'
 import { getWeb3NoAccount } from './web3'
+import { getContract } from './contractHelpers'
 
 export const getNFT = async (address, chainId) => {
   try {
@@ -127,10 +128,39 @@ export const getOwnedNFTs = async (account, chainId, contract) => {
   }
 }
 
-const getTokenUris = async (account, chainId, contract) => {
+const getTokenUris = async (account, chainId, contractAddress) => {
+  try {
+    const web3 = getWeb3NoAccount(chainId)
+    const contract = getContract(ERC721_ABI, contractAddress, web3)
+    const nftsId = await contract.methods.tokensOfOwner(account).call()
+    let tokenUris = {}
+
+    if (nftsId.length > 0) {
+      let calls = []
+      for (let index = 0; index < nftsId.length; index++) {
+        const call = {
+          address: contractAddress,
+          name: 'tokenURI',
+          params: [nftsId[index]],
+        }
+        calls.push(call)
+      }
+      const result = await multicall(web3, ERC721_ABI, calls, chainId)
+      for (let index = 0; index < nftsId.length; index++) {
+        tokenUris[nftsId[index]] = result[index][0]
+      }
+    }
+    return tokenUris
+  } catch (error) {
+    const data = await fetchTokenUriFromApi(account, chainId, contractAddress)
+    return data
+  }
+}
+
+const fetchTokenUriFromApi = async (account, chainId, contractAddress) => {
   try {
     let response = await axios.get(
-      `${process.env.NEXT_PUBLIC_MUON_NFT_BACKEND}/api/tokens/${account}/${chainId}/${contract}`
+      `${process.env.NEXT_PUBLIC_MUON_NFT_BACKEND}/api/tokens/${account}/${chainId}/${contractAddress}`
     )
     if (response.status === 200) {
       const result = response.data
@@ -140,8 +170,8 @@ const getTokenUris = async (account, chainId, contract) => {
     }
   } catch (error) {
     console.error('An error occurred while retrieving contract tokens owned by account', error)
+    return {}
   }
-  return []
 }
 
 export const sortOptions = (options, selectedTokenIds) => {

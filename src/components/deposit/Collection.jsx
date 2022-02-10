@@ -1,5 +1,5 @@
 import React from 'react'
-import { SEARCHABLE } from '../../constants/constants'
+import { SEARCHABLE, SelectType } from '../../constants/constants'
 import useSearchNFT from '../../hooks/useSearchNFT'
 import { useChangeSearchQuery } from '../../state/application/hooks'
 import { useAddCollection } from '../../state/bridge/hooks'
@@ -21,6 +21,7 @@ const Collection = (props) => {
       label="Select an asset"
       data={NFTs}
       type={SEARCHABLE}
+      selectType={SelectType.COLLECTION}
       value={value}
       marginBottom={value ? '5px' : '35px'}
       onChange={(data) => updateBridge(data)}

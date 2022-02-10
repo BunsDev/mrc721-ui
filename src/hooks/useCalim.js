@@ -25,14 +25,11 @@ const useCalim = () => {
           toChain: '',
           tokenSymbol: claim.name,
         }
-        console.log({ contract: MRC721Bridge[claim.toChain], account, claim, tochain: claim.toChain })
-
         const muonResponse = await MuonResponse('mrc721_bridge', 'claim', {
           depositAddress: MRC721Bridge[claim.fromChain],
           depositTxId: claim.txId,
           depositNetwork: claim.fromChain,
         })
-        console.log({ muonResponse })
         if (!muonResponse.confirmed) {
           addTransaction({
             ...info,

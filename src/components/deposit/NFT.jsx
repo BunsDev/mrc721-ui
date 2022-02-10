@@ -20,7 +20,13 @@ const DropdownIndicator = (props) => {
 export const MenuItem = ({ logo, nftId, isSelected }) => {
   return (
     <Flex alignItems="center" justifyContent="space-between">
-      <Image src={logo} onError={(e) => (e.target.src = '/media/tokens/default.svg')} boxSizing="unset" />
+      <Image
+        src={logo}
+        onError={(e) => (e.target.src = '/media/tokens/default.svg')}
+        boxSizing="unset"
+        width="60px"
+        height="60px"
+      />
       <Type.MD color="#313144" cursor="pointer">
         #{nftId}
         <CheckCircleWrapper>{!isSelected ? <Circle size={16} /> : <CheckCircle size={16} />}</CheckCircleWrapper>
@@ -41,7 +47,6 @@ const NFT = () => {
     bridge.collection ? bridge.collection.address[bridge.fromChain?.id] : '',
     bridge.fromChain?.id
   )
-
   useEffect(() => {
     let newOptions = []
     if (tokenUris) {
