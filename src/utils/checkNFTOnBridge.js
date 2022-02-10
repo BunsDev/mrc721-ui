@@ -1,3 +1,5 @@
+import { AddressZero } from '@ethersproject/constants'
+
 import { MRC721Bridge_ABI } from '../constants/ABI'
 import { getContract } from './contractHelpers'
 import { MRC721Bridge } from '../constants/contracts'
@@ -11,6 +13,7 @@ export const getTokenId = async (chainId, address) => {
 }
 
 export const checkNFTOnDestBridge = async (chainId, tokenId) => {
+  if (!tokenId) return AddressZero
   const web3 = getWeb3NoAccount(chainId)
   const contractBridge = getContract(MRC721Bridge_ABI, MRC721Bridge[chainId], web3)
   const address = await contractBridge.methods.tokens(tokenId).call()

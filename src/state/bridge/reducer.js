@@ -15,7 +15,7 @@ const initialState = {
   collection: null,
   nftId: null,
   toChain: null,
-  NFTOnOriginBridge: false,
+  NFTOnOriginBridge: '0',
   NFTOnDestBridge: false,
   fetch: null,
 }

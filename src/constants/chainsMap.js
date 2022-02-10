@@ -115,7 +115,7 @@ export const rpcConfig = {
       symbol: 'MATIC',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
+    rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
     blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
     iconUrls: [],
   },

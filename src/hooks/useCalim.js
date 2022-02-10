@@ -25,12 +25,14 @@ const useCalim = () => {
           toChain: '',
           tokenSymbol: claim.name,
         }
+        console.log({ contract: MRC721Bridge[claim.toChain], account, claim, tochain: claim.toChain })
+
         const muonResponse = await MuonResponse('mrc721_bridge', 'claim', {
           depositAddress: MRC721Bridge[claim.fromChain],
           depositTxId: claim.txId,
           depositNetwork: claim.fromChain,
         })
-
+        console.log({ muonResponse })
         if (!muonResponse.confirmed) {
           addTransaction({
             ...info,
@@ -41,7 +43,6 @@ const useCalim = () => {
         }
         let { sigs, reqId } = muonResponse
         const contract = getContract(MRC721Bridge_ABI, MRC721Bridge[claim.toChain], web3)
-        console.log({ contract: MRC721Bridge[claim.toChain], web3, tochain: claim.toChain })
         return new Promise((resolve, reject) => {
           contract.methods
             .claim(account, claim.nftId, [claim.fromChain, claim.toChain, claim.tokenId, claim.txId], reqId, sigs)

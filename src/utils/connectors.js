@@ -34,7 +34,7 @@ const RPC_URLS = {
   256: 'https://http-testnet.hecochain.com',
   250: 'https://rpcapi.fantom.network',
   137: 'https://rpc-mainnet.maticvigil.com/',
-  80001: 'https://rpc-mumbai.maticvigil.com/',
+  80001: 'https://matic-mumbai.chainstacklabs.com',
 }
 
 export const injected = new InjectedConnector({

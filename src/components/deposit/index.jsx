@@ -76,10 +76,19 @@ const Deposit = () => {
           <TriangleDown />
         </Box>
         <Box background="linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%)">
-          <Chain type={ChainStatus.DEST_CHAIN} value={bridge?.toChain?.id} marginBottom={fetchExist} />
+          <Chain
+            type={ChainStatus.DEST_CHAIN}
+            value={bridge?.toChain?.id}
+            marginBottom={fetchExist || !bridge.collection}
+          />
           {bridge.toChain && bridge.collection && !fetchExist && (
             <>
-              <Info chain={bridge.toChain.name} name={bridge.collection.name} exist={bridge.NFTOnDestBridge} />
+              <Info
+                chain={bridge.toChain.name}
+                name={bridge.collection.name}
+                exist={bridge.NFTOnDestBridge}
+                marginBottom={!bridge.NFTOnDestBridge}
+              />
               {bridge.NFTOnDestBridge && (
                 <CopyAddress
                   tokenSymbol={bridge.collection.symbol}

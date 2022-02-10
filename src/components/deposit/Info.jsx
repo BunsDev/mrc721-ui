@@ -4,10 +4,16 @@ import { Type } from '../text/Text'
 import { WrapTokenAddress, WrapperInfo, Circle, CopyBtn } from './deposit.style'
 
 const Info = (props) => {
-  const { exist, chain, name } = props
+  const { exist, chain, name, marginBottom } = props
 
   return (
-    <WrapperInfo maxWidth="450px" width="100%" justifyContent="space-between" alignItems="center" marginBottom="3px">
+    <WrapperInfo
+      maxWidth="450px"
+      width="100%"
+      justifyContent="space-between"
+      alignItems="center"
+      marginBottom={`${marginBottom ? '22px' : '3px'}`}
+    >
       <WrapTokenAddress width="100%">
         <Flex alignItems="center">
           <Circle background={exist ? '#00e376' : '#DC5151'} />
