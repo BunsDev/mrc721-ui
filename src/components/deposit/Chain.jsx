@@ -6,7 +6,7 @@ import { ChainStatus } from '../../constants/constants'
 import { useAddOriginChain, useAddDestChain, useBridge, useRemoveBridge } from '../../state/bridge/hooks'
 
 const Chain = (props) => {
-  const { type, value } = props
+  const { type, value, marginBottom } = props
   const [chains, setChains] = useState('')
   const bridge = useBridge()
   const addOriginChain = useAddOriginChain()
@@ -48,7 +48,7 @@ const Chain = (props) => {
       type="chain"
       value={value}
       onChange={(data) => updateBridge(data)}
-      marginBottom={value ? '5px' : '35px'}
+      marginBottom={marginBottom ? '35px' : value ? '5px' : '35px'}
     />
   )
 }

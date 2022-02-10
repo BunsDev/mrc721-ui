@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex } from 'rebass'
 import { AddressZero } from '@ethersproject/constants'
 import { ChainStatus } from '../../constants/constants'
@@ -19,6 +19,7 @@ const Deposit = () => {
   const bridge = useBridge()
   const changeNFTOnOriginBridge = useChangeNFTOnOriginChain()
   const changeNFTOnDestBridge = useChangeNFTOnDestChain()
+  const [fetchExist, setFetchExist] = useState(false)
 
   useEffect(() => {
     const checkNFTExist = async () => {
@@ -32,20 +33,16 @@ const Deposit = () => {
 
   useEffect(() => {
     const checkNFTExist = async () => {
-      if (bridge.toChain && bridge.NFTOnOriginBridge) {
+      setFetchExist(true)
+      if (bridge.toChain) {
         let address = await checkNFTOnDestBridge(bridge.toChain.id, bridge.NFTOnOriginBridge)
         if (address !== AddressZero) {
           changeNFTOnDestBridge(address)
-          // let selected = {
-          //   ...bridge.collection,
-          //   address: {
-          //     ...bridge.collection.address,
-          //     [bridge.toChain.id]: address,
-          //   },
-          // }
-          // updateCollection(selected)
+        } else {
+          changeNFTOnDestBridge(false)
         }
       }
+      setFetchExist(false)
     }
     checkNFTExist()
   }, [bridge.toChain, bridge.NFTOnOriginBridge])
@@ -79,8 +76,8 @@ const Deposit = () => {
           <TriangleDown />
         </Box>
         <Box background="linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%)">
-          <Chain type={ChainStatus.DEST_CHAIN} value={bridge?.toChain?.id} />
-          {bridge.toChain && bridge.collection && (
+          <Chain type={ChainStatus.DEST_CHAIN} value={bridge?.toChain?.id} marginBottom={fetchExist} />
+          {bridge.toChain && bridge.collection && !fetchExist && (
             <>
               <Info chain={bridge.toChain.name} name={bridge.collection.name} exist={bridge.NFTOnDestBridge} />
               {bridge.NFTOnDestBridge && (

@@ -20,7 +20,6 @@ const useSearchNFT = () => {
         //  filter based on chain
         else if (bridge.fromChain && localStorageNFTs) {
           const filter = localStorageNFTs.filter((item) => bridge.fromChain.id in item.address)
-          console.log({ filter })
           setNFTs(filter)
         }
         // show all
