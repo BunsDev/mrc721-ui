@@ -8,6 +8,7 @@ import { escapeRegExp } from './utils'
 import { ERC721_ABI } from '../constants/ABI'
 import { getWeb3NoAccount } from './web3'
 import { getContract } from './contractHelpers'
+import { defaultNft } from '../constants/settings'
 
 export const getNFT = async (address, chainId) => {
   try {
@@ -48,7 +49,7 @@ export const getNFT = async (address, chainId) => {
 // TODO complete this function and catch error localstorage safari
 export const findAndAddNFT = async (searchQuery, fromChain) => {
   // Step 1: search in NFT list
-  let finalNFTs = []
+  let finalNFTs = combineDefaultAndLocalStorage()
   let NFT = ''
   const search = new RegExp([escapeRegExp(searchQuery)].join(''), 'i')
   try {
@@ -189,4 +190,10 @@ export const sortOptions = (options, selectedTokenIds) => {
     let sortedUnselectedOptions = unSelectedOptions.sort((option1, option2) => (option1.value < option2.value ? -1 : 1))
     return [...sortedSelectedOptions, ...sortedUnselectedOptions]
   }
+}
+
+export const combineDefaultAndLocalStorage = () => {
+  const localStorageNFTs = JSON.parse(localStorage.getItem('NFTs'))
+  const nfts = localStorageNFTs ? [...defaultNft, ...localStorageNFTs] : defaultNft
+  return nfts
 }
