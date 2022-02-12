@@ -10,6 +10,11 @@ import { useWeb3React } from '@web3-react/core'
 import { BorderBottom, ImageSpin } from '../common/FormControlls'
 import useCalim from '../../hooks/useCalim'
 import { useSetFetch } from '../../state/bridge/hooks'
+import { MRC721Bridge } from '../../constants/contracts'
+import { MRC721Bridge_ABI } from '../../constants/ABI'
+import MuonResponse from '../../utils/MuonResponse'
+import { addTransaction } from '../../state/transactions/actions'
+import { TransactionStatus, TransactionType } from '../../constants/transactionStatus'
 
 const Claim = (props) => {
   const { claims } = props
@@ -17,10 +22,36 @@ const Claim = (props) => {
   const [lock, setLock] = useState(false)
   const doClaim = useCalim()
   const setFetch = useSetFetch()
+  const { account } = useWeb3React()
 
-  const handleClaim = (claim) => {
+  const handleClaim = async (claim) => {
     setLock(claim)
-    doClaim(claim)
+
+    const muonResponse = await MuonResponse('mrc721_bridge', 'claim', {
+      depositAddress: MRC721Bridge[claim.fromChain],
+      depositTxId: claim.txId,
+      depositNetwork: claim.fromChain,
+    })
+    if (!muonResponse.confirmed) {
+      addTransaction({
+        type: TransactionType.CLAIM,
+        chainId: claim.toChain,
+        fromChain: rpcConfig[claim.toChain].symbol,
+        toChain: '',
+        tokenSymbol: claim.name,
+        message: muonResponse.errorMessage,
+        status: TransactionStatus.FAILED,
+      })
+      return
+    }
+    let { sigs, reqId } = muonResponse
+    doClaim(claim, MRC721Bridge[claim.toChain], MRC721Bridge_ABI, [
+      account,
+      claim.nftId,
+      [claim.fromChain, claim.toChain, claim.tokenId, claim.txId],
+      reqId,
+      sigs,
+    ])
       .then(() => {
         setLock(false)
         setFetch(Date.now())
