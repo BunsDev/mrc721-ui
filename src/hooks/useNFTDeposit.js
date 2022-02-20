@@ -36,7 +36,8 @@ const useNFTDeposit = (chainId) => {
           [bridge.nftId, bridge.toChain.id, bridge.NFTOnOriginBridge],
           account,
           info,
-          addTransaction
+          addTransaction,
+          web3.utils.toWei('0.001')
         )
       } catch (error) {
         console.log('Error happend in deposit call back', error)
