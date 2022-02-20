@@ -15,6 +15,7 @@ import { TransactionStatus, TransactionType } from '../../constants/transactionS
 import useNFTApproval from '../../hooks/useNFTApproval'
 import useNFTDeposit from '../../hooks/useNFTDeposit'
 import useFetchClaim from '../../hooks/useFetchClaim'
+import { ActionBtnType } from '../../constants/constants'
 
 const MRC721 = () => {
   const { account, chainId } = useWeb3React()
@@ -33,7 +34,7 @@ const MRC721 = () => {
     if (!chainId) return
     if (bridge.fromChain.id !== chainId) return
     if (tx.type === TransactionType.APPROVE && tx.status === TransactionStatus.PENDING) return
-    setApproval().then(() => setFetch(Date.now()))
+    setApproval().then(() => setFetch(ActionBtnType.APPROVE))
   }
 
   const handleDeposit = async () => {
