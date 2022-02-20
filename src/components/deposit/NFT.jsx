@@ -9,6 +9,7 @@ import { Arrow, CheckCircleWrapper, ReactSelectStyle } from './deposit.style'
 import useFetchOwnedNFT from '../../hooks/useFetchOwnedNFT'
 import { sortOptions } from '../../utils/NFT'
 import { useAddNFTs, useBridge } from '../../state/bridge/hooks'
+import { ActionBtnType } from '../../constants/constants'
 
 const DropdownIndicator = (props) => {
   return (
@@ -68,6 +69,7 @@ const NFT = () => {
   }, [tokenUris, selectedTokenIds, fetch])
 
   useEffect(() => {
+    if (bridge.fetch === ActionBtnType.APPROVE) return
     setSelectedTokenIds([])
     setOptions([])
   }, [bridge.collection, bridge.fetch])
