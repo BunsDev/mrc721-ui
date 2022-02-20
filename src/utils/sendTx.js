@@ -1,11 +1,17 @@
 import { TransactionStatus } from '../constants/transactionStatus'
 
-export const sendTransaction = (contract, methodName, params, account, info, addTransaction) => {
+export const sendTransaction = (contract, methodName, params, account, info, addTransaction, 
+  payableValue = null) => {
   return new Promise((resolve, reject) => {
     try {
       let hash = null
+      let options = { from: account }
+      if(payableValue !== null)
+      {
+        options['value'] = payableValue
+      }
       contract.methods[methodName](...params)
-        .send({ from: account })
+        .send(options)
         .once('transactionHash', (tx) => {
           hash = tx
           addTransaction({
