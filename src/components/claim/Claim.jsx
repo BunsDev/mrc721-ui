@@ -22,7 +22,6 @@ const Claim = (props) => {
   const [lock, setLock] = useState(false)
   const doClaim = useCalim()
   const setFetch = useSetFetch()
-  const { account } = useWeb3React()
 
   const handleClaim = async (claim) => {
     setLock(claim)
@@ -46,7 +45,6 @@ const Claim = (props) => {
     }
     let { sigs, reqId } = muonResponse
     doClaim(claim, MRC721Bridge[claim.toChain], MRC721Bridge_ABI, [
-      account,
       claim.nftId,
       [claim.fromChain, claim.toChain, claim.tokenId, claim.txId],
       reqId,
